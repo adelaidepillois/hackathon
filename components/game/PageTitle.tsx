@@ -7,7 +7,7 @@ interface PageTitleProps {
 
 export default function PageTitle({ title, subtitle }: PageTitleProps) {
     return (
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-4 md:px-0">
+        <div className="w-full px-4 md:px-0">
             <h1 className={`${styles.headingH1} text-center mx-auto`}>
                 {title}
             </h1>

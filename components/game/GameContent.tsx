@@ -13,9 +13,10 @@ interface GameContentProps {
   title: string;
   subtitle: string;
   levelId: number;
+  biases?: string[];
 }
 
-export default function GameContent({ title, subtitle, levelId }: GameContentProps) {
+export default function GameContent({ title, subtitle, levelId, biases }: GameContentProps) {
   const router = useRouter();
   const { refreshUser } = useUser();
   const [gameStarted, setGameStarted] = useState(false);
@@ -97,10 +98,29 @@ export default function GameContent({ title, subtitle, levelId }: GameContentPro
   if (!gameStarted) {
     // État "préparation" (écran initial)
     return (
-      <>
-        <PageTitle title={title} subtitle={subtitle} />
-        <CTAButton text="Lancer le niveau" onClick={handleStartGame} />
-      </>
+      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-4xl flex flex-col items-center gap-8">
+          <PageTitle title={title} subtitle={subtitle} />
+          {biases && biases.length > 0 && (
+            <div className="w-full max-w-2xl">
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/30">
+                <p className="text-white font-bold text-lg mb-4">Biais introduits :</p>
+                <ul className="space-y-2">
+                  {biases.map((bias, index) => (
+                    <li
+                      key={index}
+                      className="text-white text-md list-disc list-outside ml-5"
+                    >
+                      {bias}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+          <CTAButton text="Lancer le niveau" onClick={handleStartGame} />
+        </div>
+      </div>
     );
   }
 
