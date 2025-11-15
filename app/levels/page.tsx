@@ -84,6 +84,21 @@ export default function LevelsPage() {
 			const data = await response.json();
 
 			if (!response.ok) {
+				// Gérer les erreurs de configuration spécifiquement
+				if (data.error === "Configuration error") {
+					throw new Error(
+						`Erreur de configuration: ${data.details || "Variables d'environnement manquantes"}`
+					);
+				}
+				
+				// Gérer les erreurs RLS avec un message plus clair
+				if (data.error === "RLS Policy Error") {
+					throw new Error(
+						`Erreur de sécurité: ${data.details || "Accès refusé à la base de données"}\n\n${data.hint || ""}`
+					);
+				}
+				
+				// Message d'erreur générique
 				const errorMessage = data.details
 					? `${data.error}: ${data.details}`
 					: data.error || "Erreur lors de la sauvegarde";

@@ -1,5 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function GET(
   request: Request,
@@ -15,15 +15,18 @@ export async function GET(
       );
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
-
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    });
+    // Créer le client Supabase avec privilèges administrateur
+    let supabase;
+    try {
+      supabase = createAdminClient();
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error("❌ Erreur de configuration Supabase:", errorMessage);
+      return NextResponse.json(
+        { error: "Configuration error", details: errorMessage },
+        { status: 500 }
+      );
+    }
 
         const { data, error } = await supabase
           .from("User")
