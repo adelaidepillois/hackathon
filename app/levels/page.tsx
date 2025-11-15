@@ -47,8 +47,8 @@ export default function LevelsPage() {
 						<input
 							id="username"
 							type="text"
-							placeholder="Jane Doe"
-							className={styles.usernameInput}
+							placeholder="janedoe"
+							className={`${styles.usernameInput} px-4 py-2 bg-[hsl(208,57%,60%,0.2)] border border-white rounded-full w-full focus:outline-none focus:border-white`}
 						/>
 					</div>
 
