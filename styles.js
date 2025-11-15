@@ -4,7 +4,7 @@ const styles = {
     textBadge: "text-[#2162DD] font-neue font-bold",
     buttonText: "text-white font-neue font-bold text-[20px] md:text-[20px]",
     usernameLabel: "text-white font-bold text-2xl",
-    usernameInput: "text-white text-xl placeholder-white/99 italic",
+    usernameInput: "text-white text-[18px] md:text-[20px] placeholder-white/99 italic",
     levelCardTitle: "font-moore text-[70px] md:text-[80px] leading-[70px]",
     levelCardDescription: "font-neue font-normal text-[18px] md:text-[18px]",
     levelCardAction: "font-neue font-bold text-[20px] md:text-[22px]",

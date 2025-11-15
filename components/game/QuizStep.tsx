@@ -92,25 +92,23 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
 
   if (showResult) {
     return (
-      <div className="w-full max-w-2xl mx-auto px-4 text-center">
+      <div className="w-full max-w-2xl mx-auto px-4 text-center pb-24">
         <h3 className="text-white text-3xl md:text-4xl font-bold mb-4">Résultat de {stepTitle}</h3>
         <p className="text-white text-2xl mb-6">
           Score: {finalScore} / {questions.length}
         </p>
-        <div className="flex justify-center">
-          <button
-            onClick={handleContinue}
-            className={`${styles.buttonText} px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500`}
-          >
-            Étape suivante →
-          </button>
-        </div>
+        <button
+          onClick={handleContinue}
+          className={`${styles.buttonText} fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50`}
+        >
+          Étape suivante →
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4">
+    <div className="w-full max-w-2xl mx-auto px-4 pb-24">
       <h3 className="text-white text-2xl md:text-3xl font-bold mb-6 text-center">
         {stepTitle} - Question {currentQuestionIndex + 1} / {questions.length}
       </h3>
@@ -137,19 +135,17 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <button
-          onClick={handleNext}
-          disabled={selectedAnswer === null}
-          className={`${styles.buttonText} px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border ${
-            selectedAnswer === null
-              ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-transparent hover:text-[#2162DD] transition-all duration-500"
-          }`}
-        >
-          {isLastQuestion ? "Terminer" : "Suivant"}
-        </button>
-      </div>
+      <button
+        onClick={handleNext}
+        disabled={selectedAnswer === null}
+        className={`${styles.buttonText} fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border z-50 ${
+          selectedAnswer === null
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-transparent hover:text-[#2162DD] transition-all duration-500"
+        }`}
+      >
+        {isLastQuestion ? "Terminer" : "Suivant"}
+      </button>
     </div>
   );
 }
