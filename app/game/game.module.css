@@ -1,0 +1,17 @@
+
+/* Gradient linéaire personnalisé avec tes stops exacts */
+.bg-custom-gradient {
+    background: linear-gradient(
+      180deg,
+      #1358D9 0%,
+      #FA42EE 53%,
+      #FBCF63 87%,
+      #FBE94E 100%
+    );
+  }
+  
+  /* Pour forcer la page à remplir l’écran */
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
