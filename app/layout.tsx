@@ -30,7 +30,7 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.className} antialiased bgPage`}>
 				<UserBadge label={'adepil'} position="left" />
-				<ScoreBadge score={0} />
+				<ScoreBadge score={null} />
 
 				{/* <ThemeProvider
 					attribute="class"
