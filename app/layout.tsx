@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 // import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import UserBadge from "@/components/game/UserBadge";
+import ScoreBadge from "@/components/game/ScoreBadge";
 
 const defaultUrl = process.env.VERCEL_URL
 	? `https://${process.env.VERCEL_URL}`
@@ -27,6 +29,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.className} antialiased bgPage`}>
+				<UserBadge label={'adepil'} position="left" />
+				<ScoreBadge score={0} />
+
 				{/* <ThemeProvider
 					attribute="class"
 					defaultTheme="system"

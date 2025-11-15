@@ -3,14 +3,12 @@ import UserBadge from '@/components/game/UserBadge'
 import ScoreBadge from '@/components/game/ScoreBadge'
 import PageTitle from '@/components/game/PageTitle'
 import CTAButton from '@/components/game/CTAButton'
-import NavigationDots from '@/components/game/NavigationDots'
-import Link from 'next/link';
+
 
 // Page principale
 export default async function Home() {
-  const username = "Username";
-  const score = 200;
 
+  
   return (
     <div className="relative min-h-screen">
       <div className="fixed inset-[1rem] rounded-2xl overflow-hidden -z-10">
@@ -21,8 +19,6 @@ export default async function Home() {
         />
       </div>
       {/* En-tête avec badges utilisateur */}
-      <UserBadge label={username} position="left" />
-      <ScoreBadge score={score} />
 
       {/* Titre et sous-titre centrés */}
       <PageTitle 
