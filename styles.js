@@ -6,7 +6,7 @@ const styles = {
     usernameLabel: "text-white font-bold text-2xl",
     usernameInput: "text-white text-xl placeholder-white/99 italic",
     levelCardTitle: "font-moore text-[70px] md:text-[80px]",
-    levelCardDescription: "font-neue font-normal text-[20px] md:text-[25px]",
+    levelCardDescription: "font-neue font-normal text-[20px] md:text-[20px]",
     levelCardAction: "font-neue font-bold text-[20px] md:text-[22px]",
 };
 
