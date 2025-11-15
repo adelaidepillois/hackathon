@@ -10,8 +10,11 @@ const levels = [
 	{
 		id: 1,
 		title: "Niveau 1",
-		description:
-			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sed! Eos ipsum doloremque, praesentium tempora sed at blanditiis ex, impedit dolorem labore eveniet ea ut mollitia ipsa optio iure perferendis.",
+		description: ` Apprendre les réflexes de base. Vous vous entraînerez à repérer les URL suspectes, les images sorties de leur contexte et les "promesses miracles".`,
+		biases: [
+			"Biais d'Ancrage : ne pas se laisser aveugler par le titre.",
+			"Biais de Négativité : ne pas surréagir aux nouvelles alarmistes",
+		],
 		className:
 			"lg:translate-x-[15%] lg:translate-y-[10%] lg:z-30 lg:-rotate-6 cursor-pointer",
 		enabled: true,
@@ -20,18 +23,24 @@ const levels = [
 		id: 2,
 		title: "Niveau 2",
 		description:
-			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sed! Eos ipsum doloremque, praesentium tempora sed at blanditiis ex, impedit dolorem labore eveniet ea ut mollitia ipsa optio iure perferendis.",
+			"Le Détective Émotionnel. Mission : maîtriser ses propres impulsions. Ici, l'ennemi est souvent votre propre cerveau. Vous apprendrez à déjouer le clickbait, les mèmes trompeurs et les appels à l'émotion.",
+		biases: [
+			"Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+		],
 		className:
-			"lg:z-20 lg:rotate-0 lg:blur-[5px] lg:shadow-2xl lg:shadow-black/30 cursor-not-allowed",
+			"lg:z-20 lg:rotate-0 blur-[3px] lg:blur-[5px] lg:shadow-2xl lg:shadow-black/30 cursor-not-allowed",
 		enabled: false,
 	},
 	{
 		id: 3,
 		title: "Niveau 3",
 		description:
-			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sed! Eos ipsum doloremque, praesentium tempora sed at blanditiis ex, impedit dolorem labore eveniet ea ut mollitia ipsa optio iure perferendis.",
+			"Le Maître de la Nuance. Mission : entrer dans l'élite du fact-checking. Vous affronterez des défis complexes : identifier la satire, analyser des statistiques trompeuses et démasquer les arguments d'autorité fallacieux.",
+		biases: [
+			"Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+		],
 		className:
-			"lg:translate-x-[-15%] lg:translate-y-[10%] lg:z-10 lg:rotate-6 lg:blur-[5px] cursor-not-allowed",
+			"lg:translate-x-[-15%] lg:translate-y-[10%] lg:z-10 lg:rotate-6 blur-[3px] lg:blur-[5px] cursor-not-allowed",
 		enabled: false,
 	},
 ];
@@ -117,7 +126,7 @@ export default function LevelsPage() {
 				<div className="flex flex-col items-center gap-8 w-full px-4">
 					<form
 						onSubmit={handleSubmit}
-						className="flex flex-col gap-4 items-center w-full max-w-sm mx-auto pt-[80px] lg:pt-0 relative"
+						className="flex flex-col gap-4 items-center w-full max-w-sm mx-auto pt-[80px] lg:pt-0 relative px-4"
 					>
 						<label htmlFor="username" className={styles.usernameLabel}>
 							Ton username
@@ -152,6 +161,7 @@ export default function LevelsPage() {
 								key={level.id}
 								title={level.title}
 								description={level.description}
+								biases={level.biases}
 								className={level.className}
 							/>
 						))}
