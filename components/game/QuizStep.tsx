@@ -100,7 +100,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
         <div className="flex justify-center">
           <button
             onClick={handleContinue}
-            className={`${styles.buttonText} px-8 py-3 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500`}
+            className={`${styles.buttonText} px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500`}
           >
             Étape suivante →
           </button>
@@ -125,7 +125,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
             <button
               key={index}
               onClick={() => handleAnswerSelect(index)}
-              className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
+              className={`w-full text-left px-4 py-1 rounded-lg border-2 transition-all ${
                 selectedAnswer === index
                   ? "bg-[#2162DD] border-[#2162DD] text-white"
                   : "bg-white/5 border-white/30 text-white hover:bg-white/10"
@@ -141,7 +141,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
         <button
           onClick={handleNext}
           disabled={selectedAnswer === null}
-          className={`${styles.buttonText} px-8 py-3 rounded-full bg-[#2162DD] border-[#2162DD] border ${
+          className={`${styles.buttonText} px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border ${
             selectedAnswer === null
               ? "opacity-50 cursor-not-allowed"
               : "hover:bg-transparent hover:text-[#2162DD] transition-all duration-500"
