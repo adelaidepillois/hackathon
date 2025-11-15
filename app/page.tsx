@@ -1,4 +1,3 @@
-import styles from '@/app/game.module.css'
 import './globals.css'
 import UserBadge from '@/components/game/UserBadge'
 import ScoreBadge from '@/components/game/ScoreBadge'
@@ -13,7 +12,14 @@ export default async function Home() {
   const score = 200;
 
   return (
-    <div className={styles.bgPage}>
+    <div className="relative min-h-screen">
+      <div className="fixed inset-[1rem] rounded-2xl overflow-hidden -z-10">
+        <img 
+          src="/images/background.svg" 
+          alt="Background" 
+          className="w-full h-full object-cover" 
+        />
+      </div>
       {/* En-tête avec badges utilisateur */}
       <UserBadge label={username} position="left" />
       <ScoreBadge score={score} />

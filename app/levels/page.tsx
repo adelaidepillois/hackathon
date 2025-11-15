@@ -4,11 +4,16 @@ import LevelCard from "@/components/card/LevelCard";
 
 export default function LevelsPage() {
 	return (
-		<main className="w-full h-screen">
-			<div className="w-full py-5 px-6 mx-auto h-full">
-				{/* Background */}
-				<div className="bg-gradient-to-b from-blue-600 via-pink-400 to-yellow-300 rounded-2xl min-h-full p-4 ">
-					<div className="flex flex-col justify-center gap-[8rem] pt-[calc(15vh)] ">
+		<main className="relative w-full min-h-screen">
+			<div className="fixed inset-[1rem] rounded-2xl overflow-hidden -z-10">
+				<img 
+					src="/images/background.svg" 
+					alt="Background" 
+					className="w-full h-full object-cover" 
+				/>
+			</div>
+			<div className="relative w-full py-5 px-6 mx-auto min-h-screen">
+				<div className="flex flex-col justify-center gap-[8rem] pt-[calc(15vh)] ">
 						{/* Username */}
 						<div className="flex flex-col items-center gap-2 w-full max-w-sm mx-auto ">
 							<label
@@ -68,7 +73,6 @@ export default function LevelsPage() {
 							/>
 						</div>
 					</div>
-				</div>
 			</div>
 		</main>
 	);

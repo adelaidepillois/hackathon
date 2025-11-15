@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        moore: ["'Moore Trial Henry'", "serif"],
+        neue: ["'Neue Haas Grotesk Display Pro'", "sans-serif"],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
