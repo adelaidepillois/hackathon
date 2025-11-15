@@ -6,45 +6,7 @@ import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
 import LevelCard from "@/components/card/LevelCard";
 import { styles } from "@/styles";
-
-const levels = [
-	{
-		id: 1,
-		title: "Niveau 1",
-		description: ` Apprendre les réflexes de base. Vous vous entraînerez à repérer les URL suspectes, les images sorties de leur contexte et les "promesses miracles".`,
-		biases: [
-			"Biais d'Ancrage : ne pas se laisser aveugler par le titre.",
-			"Biais de Négativité : ne pas surréagir aux nouvelles alarmistes",
-		],
-		className:
-			"lg:translate-x-[15%] lg:translate-y-[10%] lg:z-30 lg:-rotate-6 cursor-pointer",
-		enabled: true,
-	},
-	{
-		id: 2,
-		title: "Niveau 2",
-		description:
-			"Le Détective Émotionnel. Mission : maîtriser ses propres impulsions. Ici, l'ennemi est souvent votre propre cerveau. Vous apprendrez à déjouer le clickbait, les mèmes trompeurs et les appels à l'émotion.",
-		biases: [
-			"Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-		],
-		className:
-			"lg:z-20 lg:rotate-0 blur-[3px] lg:blur-[5px] lg:shadow-2xl lg:shadow-black/30 cursor-not-allowed",
-		enabled: false,
-	},
-	{
-		id: 3,
-		title: "Niveau 3",
-		description:
-			"Le Maître de la Nuance. Mission : entrer dans l'élite du fact-checking. Vous affronterez des défis complexes : identifier la satire, analyser des statistiques trompeuses et démasquer les arguments d'autorité fallacieux.",
-		biases: [
-			"Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-		],
-		className:
-			"lg:translate-x-[-15%] lg:translate-y-[10%] lg:z-10 lg:rotate-6 blur-[3px] lg:blur-[5px] cursor-not-allowed",
-		enabled: false,
-	},
-];
+import { levels } from "@/data/levels";
 
 export default function LevelsPage() {
 	const router = useRouter();
@@ -179,27 +141,27 @@ export default function LevelsPage() {
 
 					<div className="flex flex-col gap-4 w-full px-4 lg:px-0 lg:flex-row lg:items-center lg:justify-center">
 						{levels.map((level) => {
-							// Un niveau est activé s'il est dans la liste enabled OU si l'utilisateur a atteint ce niveau
-							// MAIS le niveau 1 nécessite un username
+							// Déterminer si le niveau est activé
 							const userLevel = user?.level || 1;
 							const hasUsername = !!user?.username;
-							const isEnabled = (level.enabled || level.id <= userLevel) && (level.id === 1 ? hasUsername : true);
+							const isEnabled = level.id <= userLevel && (level.id === 1 ? hasUsername : true);
 							
-							// Ajuster le className pour les niveaux débloqués
-							let className = level.className;
+							// Définir le className en fonction de l'ID du niveau
+							let baseClassName = "";
+							if (level.id === 1) {
+								baseClassName = "lg:translate-x-[15%] lg:translate-y-[10%] lg:z-30 lg:-rotate-6";
+							} else if (level.id === 2) {
+								baseClassName = "lg:z-20 lg:rotate-0 lg:shadow-2xl lg:shadow-black/30";
+							} else if (level.id === 3) {
+								baseClassName = "lg:translate-x-[-15%] lg:translate-y-[10%] lg:z-10 lg:rotate-6";
+							}
+							
+							// Ajuster le className selon l'état activé/désactivé
+							let className = baseClassName;
 							if (isEnabled) {
-								className = className.replace("cursor-not-allowed", "cursor-pointer");
-								className = className.replace("lg:blur-[5px]", "");
-								className = className.replace("blur-[3px]", "");
-								className = className.replace("blur-[5px]", "");
+								className += " cursor-pointer";
 							} else {
-								// S'assurer que les classes de désactivation sont présentes
-								if (!className.includes("cursor-not-allowed")) {
-									className += " cursor-not-allowed";
-								}
-								if (level.id === 1 && !hasUsername && !className.includes("lg:blur-[5px]")) {
-									className += " lg:blur-[5px]";
-								}
+								className += " cursor-not-allowed blur-[3px] lg:blur-[5px]";
 							}
 							
 							return (
