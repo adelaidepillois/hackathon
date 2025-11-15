@@ -20,14 +20,19 @@ export default async function Home() {
       </div>
       {/* En-tête avec badges utilisateur */}
 
-      {/* Titre et sous-titre centrés */}
-      <PageTitle 
-        title="FAKE NEWS DETECTOR"
-        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus."
-      />
+      {/* Contenu centré */}
+      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-4xl flex flex-col items-center gap-8">
+          {/* Titre et sous-titre centrés */}
+          <PageTitle 
+            title="FAKE NEWS DETECTOR"
+            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus."
+          />
 
-      {/* Bouton d'action */}
-      <CTAButton text="Commencer l'expérience" href="/levels" />
+          {/* Bouton d'action */}
+          <CTAButton text="Commencer l'expérience" href="/levels" />
+        </div>
+      </div>
 
     </div>
   );
