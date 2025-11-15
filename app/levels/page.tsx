@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
 import LevelCard from "@/components/card/LevelCard";
 import { styles } from "@/styles";
-import { levels } from "@/data/levels";
 
 const levels = [
 	{
@@ -56,6 +55,11 @@ export default function LevelsPage() {
 		type: "success" | "error";
 		text: string;
 	} | null>(null);
+
+	// Rafraîchir les données utilisateur au montage de la page
+	useEffect(() => {
+		refreshUser();
+	}, [refreshUser]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -125,10 +129,6 @@ export default function LevelsPage() {
 				/>
 			</div>
 			
-			<div className="w-full mx-auto flex flex-col mt-8 items-center py-8 lg:relative lg:h-screen lg:py-0">
-				<div className="flex flex-col items-center gap-[50px] w-full px-4">
-					<form onSubmit={handleSubmit} className="flex flex-col gap-4 items-center w-full max-w-sm mx-auto pt-[80px] lg:pt-0">
-
 			<div className="w-full mx-auto flex flex-col items-center py-8 lg:relative lg:justify-center lg:h-screen lg:py-0">
 				<div className="flex flex-col items-center gap-8 w-full px-4">
 					<form
@@ -175,6 +175,8 @@ export default function LevelsPage() {
 							if (isEnabled) {
 								className = className.replace("cursor-not-allowed", "cursor-pointer");
 								className = className.replace("lg:blur-[5px]", "");
+								className = className.replace("blur-[3px]", "");
+								className = className.replace("blur-[5px]", "");
 							} else {
 								// S'assurer que les classes de désactivation sont présentes
 								if (!className.includes("cursor-not-allowed")) {
@@ -190,20 +192,12 @@ export default function LevelsPage() {
 									key={level.id}
 									title={level.title}
 									description={level.description}
+									biases={level.biases}
 									className={className}
 									href={isEnabled ? `/game?level=${level.id}` : undefined}
 								/>
 							);
 						})}
-						{levels.map((level) => (
-							<LevelCard
-								key={level.id}
-								title={level.title}
-								description={level.description}
-								biases={level.biases}
-								className={level.className}
-							/>
-						))}
 					</div>
 
 					<Link 
