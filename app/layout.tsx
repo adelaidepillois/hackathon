@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 // import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import UserBadge from "@/components/game/UserBadge";
-import ScoreBadge from "@/components/game/ScoreBadge";
+import { UserProvider } from "@/contexts/UserContext";
+import UserSession from "@/components/game/UserSession";
 
 const defaultUrl = process.env.VERCEL_URL
 	? `https://${process.env.VERCEL_URL}`
@@ -29,17 +29,17 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.className} antialiased bgPage`}>
-				<UserBadge label={'adepil'} position="left" />
-				<ScoreBadge score={null} />
-
-				{/* <ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				> */}
-				{children}
-				{/* </ThemeProvider> */}
+				<UserProvider>
+					<UserSession />
+					{/* <ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					> */}
+					{children}
+					{/* </ThemeProvider> */}
+				</UserProvider>
 			</body>
 		</html>
 	);
