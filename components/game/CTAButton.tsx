@@ -1,3 +1,4 @@
+import { styles } from '@/styles';
 import Link from 'next/link';
 
 interface CTAButtonProps {
@@ -7,11 +8,11 @@ interface CTAButtonProps {
 }
 
 export default function CTAButton({ text, onClick, href }: CTAButtonProps) {
-  const buttonClasses = "absolute left-1/2 -translate-x-1/2 bottom-16 lg:bottom-32 w-[85%] max-w-[357px] h-12 md:h-[50px] cursor-pointer rounded-full bg-[#2162DD] border-none flex items-center justify-center text-white font-neue font-bold text-sm md:text-[22px] hover:bg-[#1a52b8] transition-colors px-4 whitespace-nowrap";
+  const buttonClasses = "fixed left-1/2 -translate-x-1/2 bottom-4 md:bottom-8 cursor-pointer rounded-full px-6 py-2 bg-[#2162DD] border-[#2162DD] border flex items-center justify-center hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 whitespace-nowrap";
 
   if (href) {
     return (
-      <Link href={href} className={buttonClasses}>
+      <Link href={href} className={`${styles.buttonText} ${buttonClasses}`}>
         {text}
       </Link>
     );
