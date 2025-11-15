@@ -25,11 +25,11 @@ export async function GET(
       },
     });
 
-    const { data, error } = await supabase
-      .from("User")
-      .select("username, score")
-      .eq("username", decodeURIComponent(username))
-      .single();
+        const { data, error } = await supabase
+          .from("User")
+          .select("username, score, level")
+          .eq("username", decodeURIComponent(username))
+          .single();
 
     if (error) {
       return NextResponse.json(

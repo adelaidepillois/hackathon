@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface UserData {
   username: string;
   score: number;
+  level?: number;
 }
 
 interface UserContextType {

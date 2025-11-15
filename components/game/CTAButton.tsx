@@ -21,7 +21,7 @@ export default function CTAButton({ text, onClick, href }: CTAButtonProps) {
   return (
     <button
       onClick={onClick}
-      className={buttonClasses}
+      className={`${styles.buttonText} ${buttonClasses}`}
     >
       {text}
     </button>
