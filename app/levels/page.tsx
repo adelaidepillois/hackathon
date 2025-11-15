@@ -139,7 +139,7 @@ export default function LevelsPage() {
 						)}
 					</form>
 
-					<div className="flex flex-col gap-4 w-full px-4 lg:px-0 lg:flex-row lg:items-center lg:justify-center">
+					<div className="flex flex-col gap-4 w-full px-4 lg:px-0 lg:flex-row lg:items-start lg:justify-center">
 						{levels.map((level) => {
 							// Déterminer si le niveau est activé
 							const userLevel = user?.level || 1;

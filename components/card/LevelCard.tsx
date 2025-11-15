@@ -20,7 +20,7 @@ export default function LevelCard({
 }: LevelCardProps) {
 	const cardContent = (
 		<div
-			className={`flex flex-col h-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white w-full lg:max-w-sm lg:w-[22rem] transition-transform duration-300 hover:scale-105
+			className={`flex flex-col h-full min-h-[300px] lg:h-[400px] justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white w-full lg:w-[22rem] transition-all duration-300 hover:scale-105 lg:hover:z-50 relative
         ${className ?? ""}
       `}
 		>
