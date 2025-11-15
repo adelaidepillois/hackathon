@@ -27,10 +27,14 @@ export default function LevelCard({
 			<h2 className={styles.levelCardTitle}>{title}</h2>
 			<div>
 				<p className={styles.levelCardDescription}>{description}</p>
-			</div>
-			<div className="flex justify-between items-center mt-6">
-				<p className={styles.levelCardAction}>Commencer</p>
-				<span className={styles.levelCardAction}>→</span>
+				<div className="flex justify-between items-center mt-2">
+					<p className={styles.levelCardAction}>Commencer</p>
+					<img 
+						src="/images/arrow.svg" 
+						alt="Arrow" 
+						className="w-6 h-6"
+					/>
+				</div>
 			</div>
 		</div>
 	);

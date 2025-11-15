@@ -106,37 +106,38 @@ export default function LevelsPage() {
 				/>
 			</div>
 			
-			<div className="w-full mx-auto flex flex-col items-center py-8 lg:relative lg:justify-center lg:h-screen lg:py-0">
-				<div className="flex flex-col items-center gap-8 w-full px-4">
+			<div className="w-full mx-auto flex flex-col items-center lg:relative lg:h-screen pt-[90px] md:pt-[30px]">
+				<div className="flex flex-col items-center md:gap-10 gap-4 w-full px-4">
 					<form
 						onSubmit={handleSubmit}
-						className="flex flex-col gap-4 items-center w-full max-w-sm mx-auto pt-[80px] lg:pt-0 relative px-4"
+						className="flex flex-col gap-2 items-center w-full max-w-sm mx-auto relative px-4"
 					>
 						<label htmlFor="username" className={styles.usernameLabel}>
 							Ton username
 						</label>
-						<input
-							id="username"
-							type="text"
-							placeholder="janedoe"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-							disabled={isLoading}
-							className={`${styles.usernameInput} px-4 py-2 bg-[hsl(208,57%,60%,0.2)] border border-white rounded-full w-full focus:outline-none focus:border-white disabled:opacity-50`}
-						/>
-						{message && (
-							<div className="absolute -right-16 py-4 px-6 top-2 bg-white rounded-full border-[#3d55de] border-4 rotate-[21deg] shadow-lg shadow-black/20 ">
-								<p
-									className={`text-sm font-neue font-bold ${
-										message.type === "success"
-											? "text-blue-600"
-											: "text-red-300"
-									}`}
-								>
-									{message.text}
-								</p>
-							</div>
-						)}
+						<div className="relative w-full">
+							<input
+								id="username"
+								type="text"
+								placeholder="janedoe"
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
+								disabled={isLoading}
+								className={`${styles.usernameInput} px-4 py-2 pr-12 bg-[hsl(208,57%,60%,0.2)] border border-white rounded-full w-full focus:outline-none focus:border-white disabled:opacity-50`}
+							/>
+							<button
+								type="submit"
+								disabled={isLoading || !username.trim()}
+								className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+							>
+								<img 
+									src="/images/arrow.svg" 
+									alt="Submit" 
+									className="w-6 h-6"
+								/>
+							</button>
+						</div>
+						
 					</form>
 
 					<div className="flex flex-col gap-4 w-full px-4 lg:px-0 lg:flex-row lg:items-start lg:justify-center">
@@ -178,9 +179,13 @@ export default function LevelsPage() {
 
 					<Link 
 						href="/leaderboard"
-						className={`${styles.buttonText} fixed bottom-4 right-4 md:bottom-8 md:right-8 px-6 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-white hover:border-white transition-all duration-500 z-50`}
+						className="fixed bottom-8 right-8 p-3 rounded-full bg-transparent border-[#FF5CE8] border hover:bg-[#EFE56A] transition-all duration-500 z-50 flex items-center justify-center"
 					>
-						Voir le podium
+						<img 
+							src="/images/podium.svg" 
+							alt="Voir le podium" 
+							className="w-8 h-8"
+						/>
 					</Link>
 				</div>
 			</div>
