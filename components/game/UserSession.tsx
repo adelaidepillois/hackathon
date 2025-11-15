@@ -3,36 +3,28 @@
 import { useUser } from "@/contexts/UserContext";
 import UserBadge from "./UserBadge";
 import ScoreBadge from "./ScoreBadge";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function UserSession() {
   const { user, refreshUser } = useUser();
+  const [hasChecked, setHasChecked] = useState(false);
 
-  // Vérifier périodiquement si le cookie existe mais que l'utilisateur n'est pas chargé
+  // Vérifier une seule fois si le cookie existe mais que l'utilisateur n'est pas chargé
   useEffect(() => {
-    const checkCookie = () => {
-      const username = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("username="))
-        ?.split("=")[1];
-      
-      if (username && !user) {
-        refreshUser();
-      }
-    };
+    // Ne vérifier qu'une seule fois au montage du composant
+    if (hasChecked) return;
 
-    // Vérifier immédiatement
-    checkCookie();
+    const username = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("username="))
+      ?.split("=")[1];
     
-    // Vérifier périodiquement (toutes les secondes pendant 5 secondes)
-    const interval = setInterval(checkCookie, 1000);
-    const timeout = setTimeout(() => clearInterval(interval), 5000);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  }, [user, refreshUser]);
+    if (username && !user) {
+      refreshUser();
+    }
+    
+    setHasChecked(true);
+  }, [user, refreshUser, hasChecked]);
 
   if (!user) {
     return null;

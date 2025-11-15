@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
 import LevelCard from "@/components/card/LevelCard";
 import { styles } from "@/styles";
+import { levels } from "@/data/levels";
 
 const levels = [
 	{
@@ -47,7 +49,7 @@ const levels = [
 
 export default function LevelsPage() {
 	const router = useRouter();
-	const { refreshUser, setUser } = useUser();
+	const { refreshUser, setUser, user } = useUser();
 	const [username, setUsername] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [message, setMessage] = useState<{
@@ -94,6 +96,7 @@ export default function LevelsPage() {
 				setUser({
 					username: data.user.username,
 					score: data.user.score ?? 0,
+					level: data.user.level ?? 1,
 				});
 			} else {
 				// Sinon, rafraîchir depuis le cookie
@@ -121,6 +124,10 @@ export default function LevelsPage() {
 					className="w-full h-full object-cover"
 				/>
 			</div>
+			
+			<div className="w-full mx-auto flex flex-col mt-8 items-center py-8 lg:relative lg:h-screen lg:py-0">
+				<div className="flex flex-col items-center gap-[50px] w-full px-4">
+					<form onSubmit={handleSubmit} className="flex flex-col gap-4 items-center w-full max-w-sm mx-auto pt-[80px] lg:pt-0">
 
 			<div className="w-full mx-auto flex flex-col items-center py-8 lg:relative lg:justify-center lg:h-screen lg:py-0">
 				<div className="flex flex-col items-center gap-8 w-full px-4">
@@ -156,6 +163,38 @@ export default function LevelsPage() {
 					</form>
 
 					<div className="flex flex-col gap-4 w-full px-4 lg:px-0 lg:flex-row lg:items-center lg:justify-center">
+						{levels.map((level) => {
+							// Un niveau est activé s'il est dans la liste enabled OU si l'utilisateur a atteint ce niveau
+							// MAIS le niveau 1 nécessite un username
+							const userLevel = user?.level || 1;
+							const hasUsername = !!user?.username;
+							const isEnabled = (level.enabled || level.id <= userLevel) && (level.id === 1 ? hasUsername : true);
+							
+							// Ajuster le className pour les niveaux débloqués
+							let className = level.className;
+							if (isEnabled) {
+								className = className.replace("cursor-not-allowed", "cursor-pointer");
+								className = className.replace("lg:blur-[5px]", "");
+							} else {
+								// S'assurer que les classes de désactivation sont présentes
+								if (!className.includes("cursor-not-allowed")) {
+									className += " cursor-not-allowed";
+								}
+								if (level.id === 1 && !hasUsername && !className.includes("lg:blur-[5px]")) {
+									className += " lg:blur-[5px]";
+								}
+							}
+							
+							return (
+								<LevelCard
+									key={level.id}
+									title={level.title}
+									description={level.description}
+									className={className}
+									href={isEnabled ? `/game?level=${level.id}` : undefined}
+								/>
+							);
+						})}
 						{levels.map((level) => (
 							<LevelCard
 								key={level.id}
@@ -166,6 +205,13 @@ export default function LevelsPage() {
 							/>
 						))}
 					</div>
+
+					<Link 
+						href="/leaderboard"
+						className={`${styles.buttonText} fixed bottom-4 right-4 md:bottom-8 md:right-8 px-6 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-white hover:border-white transition-all duration-500 z-50`}
+					>
+						Voir le podium
+					</Link>
 				</div>
 			</div>
 		</main>

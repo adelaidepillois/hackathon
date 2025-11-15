@@ -1,20 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ username: string }> }
-) {
+export async function GET() {
   try {
-    const { username } = await params;
-
-    if (!username) {
-      return NextResponse.json(
-        { error: "Username is required" },
-        { status: 400 }
-      );
-    }
-
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
@@ -25,22 +13,27 @@ export async function GET(
       },
     });
 
-        const { data, error } = await supabase
-          .from("User")
-          .select("username, score, level")
-          .eq("username", decodeURIComponent(username))
-          .single();
+    // Récupérer les 3 meilleurs scores
+    const { data, error } = await supabase
+      .from("User")
+      .select("username, score")
+      .order("score", { ascending: false })
+      .limit(3);
 
     if (error) {
+      console.error("Error fetching leaderboard:", error);
       return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
+        { error: "Failed to fetch leaderboard", details: error.message },
+        { status: 500 }
       );
     }
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(
+      { leaderboard: data || [] },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
