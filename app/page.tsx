@@ -1,4 +1,4 @@
-import styles from './game/game.module.css'
+import styles from '@/app/game.module.css'
 import './globals.css'
 import UserBadge from '@/components/game/UserBadge'
 import ScoreBadge from '@/components/game/ScoreBadge'
