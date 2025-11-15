@@ -27,18 +27,21 @@ export default function LevelCard({
 			<h2 className={styles.levelCardTitle}>{title}</h2>
 			<div>
 				<p className={styles.levelCardDescription}>{description}</p>
-				<p className="mt-4 font-bold text-lg">Biais introduits:</p>
-				<ul>
-					{biases &&
-						biases.map((bias, index) => (
-							<li
-								key={index}
-								className="text-md mt-1 list-disc list-outside ml-5"
-							>
-								{bias}
-							</li>
-						))}
-				</ul>
+				{biases && biases.length > 0 && (
+					<>
+						<p className="mt-4 font-bold text-lg">Biais introduits:</p>
+						<ul>
+							{biases.map((bias, index) => (
+								<li
+									key={index}
+									className="text-md mt-1 list-disc list-outside ml-5"
+								>
+									{bias}
+								</li>
+							))}
+						</ul>
+					</>
+				)}
 			</div>
 			<div className="flex justify-between items-center mt-6">
 				<p className={styles.levelCardAction}>Commencer</p>
