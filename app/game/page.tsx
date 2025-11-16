@@ -16,6 +16,7 @@ export default async function GamePage({
   const title = level?.title || `Niveau ${levelId}`;
   const subtitle = level?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.";
   const biases = level?.biases || [];
+  const codex = level?.codex || [];
 
   return (
     <div className="relative min-h-screen">
@@ -26,7 +27,7 @@ export default async function GamePage({
           className="w-full h-full object-cover"
         />
       </div>
-      <GameContent title={title} subtitle={subtitle} levelId={levelId} biases={biases} />
+      <GameContent title={title} subtitle={subtitle} levelId={levelId} biases={biases} codex={codex} />
     </div>
   );
 }

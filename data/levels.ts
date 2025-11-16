@@ -3,6 +3,7 @@ export interface Level {
 	title: string;
 	description: string;
 	biases?: string[];
+	codex?: string[];
 }
 
 export const levels: Level[] = [
@@ -14,6 +15,7 @@ export const levels: Level[] = [
 			"Biais d'Ancrage : ne pas se laisser aveugler par le titre.",
 			"Biais de Négativité : ne pas surréagir aux nouvelles alarmistes",
 		],
+		codex: ["Biais d'Ancrage : Tendance à se fier excessivement au premier chiffre ou à la première information reçue, influençant ensuite tout jugement, même lorsque l'ancre est arbitraire ou fausse.", "Biais de Négativité : Tendance à accorder plus de poids, de crédibilité et d'attention aux informations négatives ou menaçantes (scandales, catastrophes) qu'aux informations neutres ou positives."],
 	},
 	{
 		id: 2,
@@ -23,6 +25,7 @@ export const levels: Level[] = [
 		biases: [
 			"Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
 		],
+		codex: ["Biais de Confirmation : Tendance à rechercher, interpréter et ne mémoriser que les informations qui confirment nos croyances ou hypothèses existantes, renforçant notre \"bulle de filtre\".", "Biais de Disponibilité : Tendance à juger la probabilité d'un événement par la facilité avec laquelle des exemples frappants (souvent dramatiques et très médiatisés) nous viennent à l'esprit.","Biais d'Aversion à la Perte : Tendance à réagir de manière disproportionnée face à la menace de perdre un avantage (argent, statut, droit) plutôt qu'à la promesse d'un gain équivalent, souvent exploité par les arnaques."],
 	},
 	{
 		id: 3,
@@ -32,6 +35,7 @@ export const levels: Level[] = [
 		biases: [
 			"Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipiscing elit.",
 		],
+		codex: ["Effet Dunning-Kruger : Tendance des personnes ayant une faible compétence dans un domaine à surestimer grossièrement leur propre niveau d'expertise (souvent résumé par : \"J'ai fait mes propres recherches\").", "Biais d'Autorité : Tendance à accorder une valeur excessive à une affirmation simplement parce qu'elle provient d'une figure d'autorité (expert, titre, célébrité), même si celle-ci parle en dehors de son domaine de compétence.", "Biais de Causalité Fallacieuse :Tendance à établir une relation de cause à effet directe entre deux événements, alors qu'ils ne sont en réalité que statistiquement corrélés par un facteur tiers (Ex: Glaces et Noyades)."],
 	},
 ];
 

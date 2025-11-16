@@ -9,10 +9,10 @@ interface QuizStepProps {
   questions: QuizQuestion[];
   onComplete: (correctAnswers: number) => void; // Nombre de bonnes réponses
   levelTitle?: string; // Nom du niveau
-  biases?: string[]; // Biais du niveau pour le codex
+  codex?: string[]; // Données du codex pour le niveau
 }
 
-export default function QuizStep({ stepTitle, questions, onComplete, levelTitle, biases }: QuizStepProps) {
+export default function QuizStep({ stepTitle, questions, onComplete, levelTitle, codex }: QuizStepProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -253,7 +253,7 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
       </button>
 
       {/* Bouton Codex en bas à gauche */}
-      {biases && biases.length > 0 && (
+      {codex && codex.length > 0 && (
         <>
           <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-50">
             <button
@@ -279,12 +279,12 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
                   </button>
                   <h3 className={`${styles.usernameLabel} mb-4 text-white`}>Biais introduits :</h3>
                   <ul className="space-y-2">
-                    {biases.map((bias, index) => (
+                    {codex.map((item, index) => (
                       <li
                         key={index}
                         className={`${styles.levelCardDescription} text-white`}
                       >
-                        {bias}
+                        {item}
                       </li>
                     ))}
                   </ul>

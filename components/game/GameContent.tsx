@@ -15,9 +15,10 @@ interface GameContentProps {
   subtitle: string;
   levelId: number;
   biases?: string[];
+  codex?: string[];
 }
 
-export default function GameContent({ title, subtitle, levelId, biases }: GameContentProps) {
+export default function GameContent({ title, subtitle, levelId, biases, codex }: GameContentProps) {
   const router = useRouter();
   const { refreshUser, user } = useUser();
   const [gameStarted, setGameStarted] = useState(false);
@@ -256,7 +257,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
         questions={currentStep.quiz || []}
         onComplete={handleStepComplete}
         levelTitle={title}
-        biases={biases}
+        codex={codex}
       />
     </div>
   );
