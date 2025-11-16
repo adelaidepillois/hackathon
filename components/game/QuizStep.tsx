@@ -121,6 +121,9 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
     );
   }
 
+  const questionType = currentQuestion.type || "text";
+  const isImageQuestion = questionType === "image";
+
   return (
     <div className="w-full max-w-2xl mx-auto px-4 pb-24">
       <h3 className="text-white text-2xl md:text-3xl font-bold mb-6 text-center">
@@ -128,25 +131,62 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
       </h3>
       
       <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 md:p-8 mb-6 mx-[1rem] md:mx-0">
+        {isImageQuestion && currentQuestion.imageUrl && (
+          <div className="mb-6">
+            <img 
+              src={currentQuestion.imageUrl} 
+              alt="Question image" 
+              className="w-full h-auto rounded-lg object-cover max-h-[400px]"
+            />
+          </div>
+        )}
+        
         <h4 className={`${styles.paragraphLarge} mb-6 text-white`}>
           {currentQuestion.question}
         </h4>
         
-        <div className="space-y-3">
-          {currentQuestion.options.map((option, index) => (
+        {isImageQuestion ? (
+          // Boutons Vrai/Faux pour les questions avec image
+          <div className="flex gap-4 justify-center">
             <button
-              key={index}
-              onClick={() => handleAnswerSelect(index)}
-              className={`w-full text-left px-4 py-1 rounded-lg border-2 transition-all ${
-                selectedAnswer === index
+              onClick={() => handleAnswerSelect(0)}
+              className={`flex-1 px-6 py-4 rounded-lg border-2 transition-all font-bold text-lg ${
+                selectedAnswer === 0
                   ? "bg-[#2162DD] border-[#2162DD] text-white"
                   : "bg-white/5 border-white/30 text-white hover:bg-white/10"
               }`}
             >
-              {option}
+              Vrai
             </button>
-          ))}
-        </div>
+            <button
+              onClick={() => handleAnswerSelect(1)}
+              className={`flex-1 px-6 py-4 rounded-lg border-2 transition-all font-bold text-lg ${
+                selectedAnswer === 1
+                  ? "bg-[#2162DD] border-[#2162DD] text-white"
+                  : "bg-white/5 border-white/30 text-white hover:bg-white/10"
+              }`}
+            >
+              Faux
+            </button>
+          </div>
+        ) : (
+          // Options multiples pour les questions texte
+          <div className="space-y-3">
+            {currentQuestion.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswerSelect(index)}
+                className={`w-full text-left px-4 py-1 rounded-lg border-2 transition-all ${
+                  selectedAnswer === index
+                    ? "bg-[#2162DD] border-[#2162DD] text-white"
+                    : "bg-white/5 border-white/30 text-white hover:bg-white/10"
+                }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <button

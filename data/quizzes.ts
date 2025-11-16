@@ -1,8 +1,12 @@
+export type QuizQuestionType = "text" | "image";
+
 export interface QuizQuestion {
   id: number;
+  type?: QuizQuestionType; // Par défaut "text"
   question: string;
   options: string[];
   correctAnswer: number; // Index de la bonne réponse
+  imageUrl?: string; // URL de l'image pour les questions de type "image"
 }
 
 export interface GameStep {
@@ -26,12 +30,20 @@ export const level1Quizzes: LevelQuizzes = {
       quiz: [
         {
           id: 1,
+          type: "image",
+          question: "Cette image est-elle authentique ?",
+          options: ["Vrai", "Faux"],
+          correctAnswer: 0,
+          imageUrl: "/images/imageQuizz1.png",
+        },
+        {
+          id: 2,
           question: "Quelle est la capitale de la France ?",
           options: ["Paris", "Lyon", "Marseille", "Toulouse"],
           correctAnswer: 0,
         },
         {
-          id: 2,
+          id: 3,
           question: "Combien de continents y a-t-il sur Terre ?",
           options: ["5", "6", "7", "8"],
           correctAnswer: 2,
