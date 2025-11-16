@@ -189,11 +189,11 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
           {currentQuestion.question}
         </p>
         {isImageQuestion && currentQuestion.imageUrl && (
-          <div className="mb-4 w-[87%] md:max-w-[50%] flex justify-center px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
+          <div className="mb-4 md:max-w-[50%] max-h-[350px] md:max-h-[350px] flex justify-center px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
             <img
               src={currentQuestion.imageUrl}
               alt="Question image"
-              className=" h-auto rounded-lg object-cover max-h-[400px]"
+              className=" h-auto rounded-lg object-cover"
             />
           </div>
         )}
