@@ -49,17 +49,21 @@ export default function LevelsPage() {
 				// Gérer les erreurs de configuration spécifiquement
 				if (data.error === "Configuration error") {
 					throw new Error(
-						`Erreur de configuration: ${data.details || "Variables d'environnement manquantes"}`
+						`Erreur de configuration: ${
+							data.details || "Variables d'environnement manquantes"
+						}`
 					);
 				}
-				
+
 				// Gérer les erreurs RLS avec un message plus clair
 				if (data.error === "RLS Policy Error") {
 					throw new Error(
-						`Erreur de sécurité: ${data.details || "Accès refusé à la base de données"}\n\n${data.hint || ""}`
+						`Erreur de sécurité: ${
+							data.details || "Accès refusé à la base de données"
+						}\n\n${data.hint || ""}`
 					);
 				}
-				
+
 				// Message d'erreur générique
 				const errorMessage = data.details
 					? `${data.error}: ${data.details}`
@@ -145,18 +149,22 @@ export default function LevelsPage() {
 							// Déterminer si le niveau est activé
 							const userLevel = user?.level || 1;
 							const hasUsername = !!user?.username;
-							const isEnabled = level.id <= userLevel && (level.id === 1 ? hasUsername : true);
-							
+							const isEnabled =
+								level.id <= userLevel && (level.id === 1 ? hasUsername : true);
+
 							// Définir le className en fonction de l'ID du niveau
 							let baseClassName = "";
 							if (level.id === 1) {
-								baseClassName = "lg:translate-x-[15%] lg:translate-y-[10%] lg:z-30 lg:-rotate-6";
+								baseClassName =
+									"lg:translate-x-[15%] lg:translate-y-[10%] lg:z-30 lg:-rotate-6";
 							} else if (level.id === 2) {
-								baseClassName = "lg:z-20 lg:rotate-0 lg:shadow-2xl lg:shadow-black/30";
+								baseClassName =
+									"lg:z-20 lg:rotate-0 lg:shadow-2xl lg:shadow-black/30";
 							} else if (level.id === 3) {
-								baseClassName = "lg:translate-x-[-15%] lg:translate-y-[10%] lg:z-10 lg:rotate-6";
+								baseClassName =
+									"lg:translate-x-[-15%] lg:translate-y-[10%] lg:z-10 lg:rotate-6";
 							}
-							
+
 							// Ajuster le className selon l'état activé/désactivé
 							let className = baseClassName;
 							if (isEnabled) {
@@ -164,12 +172,13 @@ export default function LevelsPage() {
 							} else {
 								className += " cursor-not-allowed blur-[3px] lg:blur-[5px]";
 							}
-							
+
 							return (
 								<LevelCard
 									key={level.id}
 									title={level.title}
 									description={level.description}
+									biases={level.biases}
 									className={className}
 									href={isEnabled ? `/game?level=${level.id}` : undefined}
 								/>
@@ -177,7 +186,7 @@ export default function LevelsPage() {
 						})}
 					</div>
 
-					<Link 
+					<Link
 						href="/leaderboard"
 						className="fixed bottom-8 right-8 p-3 rounded-full bg-transparent border-[#FF5CE8] border hover:bg-[#EFE56A] transition-all duration-500 z-50 flex items-center justify-center"
 					>
