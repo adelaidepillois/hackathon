@@ -46,7 +46,7 @@ export const level1Quizzes: LevelQuizzes = {
 						"Info : 'La NASA a dépensé des millions de dollars pour développer un stylo capable d'écrire en apesanteur, alors que les Russes utilisaient simplement un crayon.",
 					options: ["Vrai", "Faux"],
 					correctAnswer: 1,
-					imageUrl: "/images/level1/space_pen.jpg",
+					imageUrl: "/images/space_pen.png",
 					explanation:
 						"C'est FAUX : c'est un mythe de la désinformation récurrent. L'entreprise Fisher Space Pen a développé le stylo sur fonds privés. La NASA l'a ensuite acheté, comme les Russes. Le récit est conçu pour ancrer l'idée de 'gaspillage gouvernemental'.",
 				},
@@ -57,7 +57,7 @@ export const level1Quizzes: LevelQuizzes = {
 						"DANGER : 'L'éclairage LED, massivement utilisé aujourd'hui, provoque des dommages irréversibles à la rétine, selon l'ANSES.",
 					options: ["Vrai", "Faux"],
 					correctAnswer: 0,
-					imageUrl: "/images/level1/led_danger.jpg",
+					imageUrl: "/images/led_danger.png",
 					explanation:
 						"C'est VRAI, mais le titre est trompeur. L'ANSES a bien émis un rapport sur le risque pour les enfants et les LED très froides/puissantes. Le mot 'DANGER' est de la Négativité, mais le risque existe pour certaines conditions.",
 				},
@@ -74,7 +74,7 @@ export const level1Quizzes: LevelQuizzes = {
 						"Info : 'Les billets de 500€ sont le moyen le plus courant de financement des activités criminelles en Europe, ce qui a justifié leur retrait progressif.",
 					options: ["Vrai", "Faux"],
 					correctAnswer: 0,
-					imageUrl: "/images/level1/500_euro_crime.jpg",
+					imageUrl: "/images/500_euro_crime.png",
 					explanation:
 						"C'est VRAI. C'était l'argument officiel de la Banque Centrale Européenne pour l'arrêt de leur émission en 2019, car leur forte valeur facilitait le blanchiment et le financement du terrorisme.",
 				},
@@ -85,7 +85,7 @@ export const level1Quizzes: LevelQuizzes = {
 						"ATTENTION : 'Les chemtrails laissés par les avions dans le ciel sont des produits chimiques délibérément pulvérisés pour contrôler la météo ou la population.",
 					options: ["Vrai", "Faux"],
 					correctAnswer: 1,
-					imageUrl: "/images/level1/chemtrails.jpg",
+					imageUrl: "/images/chemtrails.jpg",
 					explanation:
 						"C'est FAUX : il s'agit d'une théorie du complot. Ces traînées sont des 'contrails' (nuages de condensation) composées de glace et d'eau. Le mot 'ATTENTION' active votre Biais de Négativité.",
 				},
@@ -96,7 +96,7 @@ export const level1Quizzes: LevelQuizzes = {
 						"FAIT : 'Seuls 10% de l'argent physique mondial est en circulation ; les 90% restants sont numériques ou virtuels.",
 					options: ["Vrai", "Faux"],
 					correctAnswer: 0,
-					imageUrl: "/images/level1/cash_vs_digital.jpg",
+					imageUrl: "/images/cash_vs_digital.png",
 					explanation:
 						"C'est VRAI. Ce chiffre est exact selon les estimations. Le chiffre bas de '10%' peut inciter au doute (Biais d'Ancrage), mais c'est bien la réalité de l'économie moderne.",
 				},
@@ -126,28 +126,37 @@ export const level2Quizzes: LevelQuizzes = {
 			title: "Étape 1",
 			quiz: [
 				{
-					id: 1,
-					question: "Quel est le plus grand pays du monde par superficie ?",
-					options: ["Chine", "États-Unis", "Russie", "Canada"],
-					correctAnswer: 2,
-					explanation:
-						"La Russie est le plus grand pays du monde avec une superficie d'environ 17,1 millions de km². Elle s'étend sur deux continents : l'Europe et l'Asie.",
-				},
-				{
-					id: 2,
-					question: "Quelle est la plus haute montagne du monde ?",
-					options: ["K2", "Mont Everest", "Kilimandjaro", "Mont Blanc"],
+					id: 8,
+					type: "image",
+					question:
+						"Ce tweet montre une fillette en larmes serrant un chiot dans les bras pendant une inondation. Le message affirme que la scène se déroule actuellement aux États-Unis. Peut-on le considérer comme fiable tel quel ?",
+					options: ["Vrai", "Faux"],
 					correctAnswer: 1,
+					imageUrl: "/images/flood_girl_dog_tweet.png",
 					explanation:
-						"Le Mont Everest, situé dans l'Himalaya à la frontière entre le Népal et la Chine, est la plus haute montagne du monde avec une altitude de 8 848 mètres au-dessus du niveau de la mer.",
+						"Cette image est authentique, mais le tweet est trompeur : elle est souvent réutilisée hors contexte pour provoquer une réaction émotionnelle. Le message n’indique ni date, ni lieu vérifiable, ni lien vers une source officielle. Le combo enfant + animal + catastrophe + religion sert surtout à générer de l’engagement.",
 				},
 				{
-					id: 3,
-					question: "Quel est le plus long fleuve du monde ?",
-					options: ["Nil", "Amazone", "Mississippi", "Yangtsé"],
+					id: 9,
+					type: "image",
+					question:
+						"Cette image satellite d’un cyclone a été diffusée avec des informations de localisation précises. Peut-on la considérer comme une photo fiable ?",
+					options: ["Vrai", "Faux"],
 					correctAnswer: 0,
+					imageUrl: "/images/cycloneFlorence.jpg",
 					explanation:
-						"Le Nil est le plus long fleuve du monde avec une longueur d'environ 6 650 km. Il traverse 11 pays africains et se jette dans la Méditerranée.",
+						"Cette image est bien réelle : elle provient de la NOAA ou de la NASA. Les agences scientifiques publient des images datées, localisées et accompagnées d’un texte neutre. L’absence de sensationnalisme et la présence d’une source institutionnelle sont de bons signaux de fiabilité.",
+				},
+				{
+					id: 10,
+					type: "image",
+					question:
+						"Cette photo montrant le pape dans une énorme doudoune blanche a circulé comme une vraie image. Est-ce une photo authentique ?",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 1,
+					imageUrl: "/images/popeBalenciaga.jpg",
+					explanation:
+						"Cette photo est générée par IA. Les détails incohérents (mains, croix, plis du vêtement, textures floues) la trahissent. Aucune source officielle ne l’a publiée. Le cerveau se fait facilement piéger par le biais d’autorité : on reconnaît une personnalité connue, donc on pense que l’image est vraie.",
 				},
 			],
 		},
@@ -156,20 +165,26 @@ export const level2Quizzes: LevelQuizzes = {
 			title: "Étape 2",
 			quiz: [
 				{
-					id: 4,
-					question: "Quelle est la plus grande île du monde ?",
-					options: ["Madagascar", "Groenland", "Borneo", "Sumatra"],
+					id: 11,
+					type: "image",
+					question:
+						"Cette image montrant une femme et un enfant face aux ombres de soldats armés est présentée comme une scène réelle dans un camp de réfugiés. Peut-on la considérer comme fiable telle quelle ?",
+					options: ["Vrai", "Faux"],
 					correctAnswer: 1,
+					imageUrl: "/images/desert_mother_child_shadows.png",
 					explanation:
-						"Le Groenland est la plus grande île du monde avec une superficie d'environ 2,16 millions de km². C'est un territoire autonome du Danemark situé dans l'océan Arctique.",
+						"Cette image est souvent sortie de son contexte ou mise en scène. Aucun lieu, aucune date et aucune source vérifiable ne sont fournis. Les ombres nettes, l’esthétique très « cinématographique » et l’absence d’informations fiables doivent alerter. Avant d’y croire, il faut vérifier si des médias reconnus la relaient.",
 				},
 				{
-					id: 5,
-					question: "Quel désert est le plus grand du monde ?",
-					options: ["Sahara", "Gobi", "Antarctique", "Arctique"],
-					correctAnswer: 2,
+					id: 12,
+					type: "image",
+					question:
+						"Cette photo aérienne d'un village ravagé par des inondations est-elle authentique ?",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 0,
+					imageUrl: "/images/floods_germany_aerial.jpg",
 					explanation:
-						"L'Antarctique est le plus grand désert du monde avec une superficie d'environ 14 millions de km². Un désert est défini par ses faibles précipitations, pas seulement par la chaleur.",
+						"Cette image est réelle : elle provient des inondations meurtrières en Allemagne en 2021 et a été publiée par des médias et autorités locales. Cependant, elle est souvent réutilisée hors contexte pour illustrer de fausses catastrophes. Une image vraie peut être utilisée pour transmettre une info fausse.",
 				},
 			],
 		},
@@ -178,12 +193,15 @@ export const level2Quizzes: LevelQuizzes = {
 			title: "Étape 3",
 			quiz: [
 				{
-					id: 6,
-					question: "Quel est le plus grand lac du monde ?",
-					options: ["Caspienne", "Supérieur", "Victoria", "Baïkal"],
-					correctAnswer: 0,
+					id: 13,
+					type: "image",
+					question:
+						"Cette photo d'oiseaux retrouvés morts sur une route circule avec le message : « Encore une preuve que la 5G tue la faune sauvage instantanément ». Cette explication est-elle fiable ?",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 1,
+					imageUrl: "/images/birds5g.jpg",
 					explanation:
-						"La mer Caspienne est le plus grand lac du monde avec une superficie d'environ 371 000 km². Bien qu'elle soit appelée 'mer', c'est techniquement un lac car elle est entourée de terres.",
+						"La photo est réelle, mais l'explication est totalement fausse. Ce hoax revient régulièrement : des oiseaux morts sont associés à la 5G, aux ondes ou à un phénomène mystérieux. En réalité, ces événements ont des causes locales concrètes : intoxication alimentaire, collision avec un camion, choc thermique ou fuite toxique. L'image est vraie, mais l'interprétation est manipulée — un piège très courant.",
 				},
 			],
 		},
