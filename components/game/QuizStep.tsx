@@ -269,7 +269,7 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
 
             {/* Popup Codex juste au-dessus du bouton */}
             {showCodex && (
-              <div className="absolute bottom-full left-0 w-[300px] md:w-[400px]">
+              <div className="fixed bottom-20 left-4 right-4 md:absolute md:bottom-full md:left-0 md:right-auto md:w-[400px] mb-4 md:mb-0 mx-4 md:mx-0">
                 <div className="bg-[#FF5CE8] rounded-lg p-6 relative">
                   <button
                     onClick={() => setShowCodex(false)}

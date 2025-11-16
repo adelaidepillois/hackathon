@@ -178,7 +178,6 @@ export default function LevelsPage() {
 									key={level.id}
 									title={level.title}
 									description={level.description}
-									biases={level.biases}
 									className={className}
 									href={isEnabled ? `/game?level=${level.id}` : undefined}
 								/>

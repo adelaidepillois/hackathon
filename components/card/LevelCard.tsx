@@ -6,7 +6,6 @@ import { styles } from "@/styles";
 type LevelCardProps = {
 	title: string;
 	description: string;
-	biases?: string[];
 	className?: string;
 	href?: string;
 };
@@ -14,7 +13,6 @@ type LevelCardProps = {
 export default function LevelCard({
 	title,
 	description,
-	biases,
 	className,
 	href,
 }: LevelCardProps) {

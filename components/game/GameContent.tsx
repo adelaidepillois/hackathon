@@ -14,11 +14,10 @@ interface GameContentProps {
   title: string;
   subtitle: string;
   levelId: number;
-  biases?: string[];
   codex?: string[];
 }
 
-export default function GameContent({ title, subtitle, levelId, biases, codex }: GameContentProps) {
+export default function GameContent({ title, subtitle, levelId, codex }: GameContentProps) {
   const router = useRouter();
   const { refreshUser, user } = useUser();
   const [gameStarted, setGameStarted] = useState(false);
@@ -142,17 +141,17 @@ export default function GameContent({ title, subtitle, levelId, biases, codex }:
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-8">
         <div className="w-full max-w-4xl flex flex-col items-center gap-8 px-[1rem] md:px-0">
           <PageTitle title={title} subtitle={subtitle} />
-          {biases && biases.length > 0 && (
+          {codex && codex.length > 0 && (
             <div className="w-full max-w-2xl">
               <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
                 <p className={`${styles.usernameLabel} mb-4`}>Biais introduits :</p>
                 <ul className="space-y-2">
-                  {biases.map((bias, index) => (
+                  {codex.map((item, index) => (
                     <li
                       key={index}
                       className={`${styles.levelCardDescription} text-white`}
                     >
-                      {bias}
+                      {item}
                     </li>
                   ))}
                 </ul>
