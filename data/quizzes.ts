@@ -37,7 +37,7 @@ export const level1Quizzes: LevelQuizzes = {
 					correctAnswer: 1,
 					imageUrl: "/images/imageQuizz1.png",
 					explanation:
-						"Cette image est authentique. Pour vérifier l'authenticité d'une image, vérifiez la source, la date de publication et utilisez des outils de recherche inversée d'images.",
+						"C'est une blague scientifique classique. Le Monoxyde de Dihydrogène (H₂O) est le nom chimique de... l'eau ! Le mot 'DANGER' et le jargon chimique activent votre Biais de Négativité.",
 				},
 				{
 					id: 2,
