@@ -99,7 +99,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
         </p>
         <button
           onClick={handleContinue}
-          className={`${styles.buttonText} group flex items-center justify-between fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-6 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50 min-w-[250px] md:min-w-[250px]`}
+          className={`${styles.buttonText} text-white group flex items-center justify-between fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-6 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50 min-w-[250px] md:min-w-[250px]`}
         >
           <span>Étape suivante</span>
           <svg 
@@ -130,40 +130,41 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
         {stepTitle} - Question {currentQuestionIndex + 1} / {questions.length}
       </h3>
       
-      <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 md:p-8 mb-6 mx-[1rem] md:mx-0">
+      <div className="flex flex-col justify-center items-center">
+      <h4 className={`${styles.paragraphLarge} mb-4 text-white`}>
+          {currentQuestion.question}
+        </h4>
         {isImageQuestion && currentQuestion.imageUrl && (
-          <div className="mb-6">
+          <div className="mb-4 w-[50%] flex justify-center bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/30">
             <img 
               src={currentQuestion.imageUrl} 
               alt="Question image" 
-              className="w-full h-auto rounded-lg object-cover max-h-[400px]"
+              className=" h-auto rounded-lg object-cover max-h-[400px]"
             />
           </div>
         )}
         
-        <h4 className={`${styles.paragraphLarge} mb-6 text-white`}>
-          {currentQuestion.question}
-        </h4>
+       
         
         {isImageQuestion ? (
           // Boutons Vrai/Faux pour les questions avec image
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => handleAnswerSelect(0)}
-              className={`flex-1 px-6 py-4 rounded-lg border-2 transition-all font-bold text-lg ${
+              className={`${styles.buttonText} text-white flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${
                 selectedAnswer === 0
-                  ? "bg-[#2162DD] border-[#2162DD] text-white"
-                  : "bg-white/5 border-white/30 text-white hover:bg-white/10"
+                  ? "bg-[#2162DD] border-[#2162DD] text-[#2162DD]"
+                  : "bg-transparent border-[#2162DD] text-[#2162DD] hover:bg-[#2162DD] hover:text-white"
               }`}
             >
               Vrai
             </button>
             <button
               onClick={() => handleAnswerSelect(1)}
-              className={`flex-1 px-6 py-4 rounded-lg border-2 transition-all font-bold text-lg ${
+              className={`${styles.buttonText} text-white flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${
                 selectedAnswer === 1
                   ? "bg-[#2162DD] border-[#2162DD] text-white"
-                  : "bg-white/5 border-white/30 text-white hover:bg-white/10"
+                  : "bg-transparent border-[#2162DD] text-[#2162DD] hover:bg-[#2162DD] hover:text-white"
               }`}
             >
               Faux
@@ -192,7 +193,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
       <button
         onClick={handleNext}
         disabled={selectedAnswer === null}
-        className={`${styles.buttonText} fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border z-50 ${
+        className={`${styles.buttonText} text-white fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border z-50 ${
           selectedAnswer === null
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-transparent hover:text-[#2162DD] transition-all duration-500"
