@@ -21,7 +21,7 @@ export interface LevelQuizzes {
 	steps: GameStep[];
 }
 
-// Exemple de données pour le niveau 1
+// Données pour le niveau 1
 export const level1Quizzes: LevelQuizzes = {
 	levelId: 1,
 	steps: [
@@ -117,7 +117,7 @@ export const level1Quizzes: LevelQuizzes = {
 	],
 };
 
-// Quiz pour le niveau 2
+// Données pour le niveau 2
 export const level2Quizzes: LevelQuizzes = {
 	levelId: 2,
 	steps: [
@@ -205,6 +205,81 @@ export const level2Quizzes: LevelQuizzes = {
 				},
 			],
 		},
+	],
+};
+
+// Données pour le niveau 3
+export const level3Quizzes: LevelQuizzes = {
+	levelId: 3,
+	steps: [
+		{
+			id: 1,
+			title: "Étape 1",
+			quiz: [
+				{
+					id: 14,
+					type: "image",
+					question:
+						"Cette photo circule avec la légende : « Une femme retrouvée figée par le froid extrême dans une région isolée ». L’histoire est-elle fiable ?",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 1,
+					imageUrl: "/images/frozenWoman.avif",
+					explanation:
+						"Il s’agit d’une sculpture hyperréaliste prise dans un musée. L’image est souvent détournée pour inventer des scénarios sensationnalistes. La photo semble réaliste, mais plusieurs détails (texture trop lisse, posture figée, absence de contexte) permettent de douter.",
+				},
+			],
+		},
+		// {
+		// 	id: 2,
+		// 	title: "Étape 2",
+		// 	quiz: [
+		// 		{
+		// 			id: 4,
+		// 			type: "image",
+		// 			question:
+		// 				"Info : 'Les billets de 500€ sont le moyen le plus courant de financement des activités criminelles en Europe, ce qui a justifié leur retrait progressif.",
+		// 			options: ["Vrai", "Faux"],
+		// 			correctAnswer: 0,
+		// 			imageUrl: "/images/500_euro_crime.png",
+		// 			explanation:
+		// 				"C'est VRAI. C'était l'argument officiel de la Banque Centrale Européenne pour l'arrêt de leur émission en 2019, car leur forte valeur facilitait le blanchiment et le financement du terrorisme.",
+		// 		},
+		// 		{
+		// 			id: 5,
+		// 			type: "image",
+		// 			question:
+		// 				"ATTENTION : 'Les chemtrails laissés par les avions dans le ciel sont des produits chimiques délibérément pulvérisés pour contrôler la météo ou la population.",
+		// 			options: ["Vrai", "Faux"],
+		// 			correctAnswer: 1,
+		// 			imageUrl: "/images/chemtrails.jpg",
+		// 			explanation:
+		// 				"C'est FAUX : il s'agit d'une théorie du complot. Ces traînées sont des 'contrails' (nuages de condensation) composées de glace et d'eau. Le mot 'ATTENTION' active votre Biais de Négativité.",
+		// 		},
+		// 		{
+		// 			id: 6,
+		// 			type: "image",
+		// 			question:
+		// 				"FAIT : 'Seuls 10% de l'argent physique mondial est en circulation ; les 90% restants sont numériques ou virtuels.",
+		// 			options: ["Vrai", "Faux"],
+		// 			correctAnswer: 0,
+		// 			imageUrl: "/images/cash_vs_digital.png",
+		// 			explanation:
+		// 				"C'est VRAI. Ce chiffre est exact selon les estimations. Le chiffre bas de '10%' peut inciter au doute (Biais d'Ancrage), mais c'est bien la réalité de l'économie moderne.",
+		// 		},
+		// 		{
+		// 			id: 7,
+		// 			question:
+		// 				"Pourquoi les titres de presse 'choc' (catastrophes, scandales) attirent-ils plus notre attention que les nouvelles positives ?",
+		// 			options: [
+		// 				"À cause du Biais de Négativité",
+		// 				"À cause du Biais d'Ancrage",
+		// 				"À cause de la loi",
+		// 				"À cause du Biais d'Autorité",
+		// 			],
+		// 			correctAnswer: 0,
+		// 		},
+		// 	],
+		// },
 	],
 };
 
