@@ -171,9 +171,9 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
 
   return (
     <div className="w-full max-w-2xl mx-auto px-4 pb-24">
-      <h3 className="text-white text-2xl md:text-3xl font-bold mb-6 text-center">
+      {/* <h3 className="text-white text-2xl md:text-3xl font-bold mb-6 text-center">
         {stepTitle} - Question {currentQuestionIndex + 1} / {questions.length}
-      </h3>
+      </h3> */}
       
       <div className="flex flex-col justify-center items-center">
       <h4 className={`${styles.paragraphLarge} mb-4 text-white`}>
