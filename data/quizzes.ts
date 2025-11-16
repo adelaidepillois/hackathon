@@ -227,12 +227,6 @@ export const level3Quizzes: LevelQuizzes = {
 					explanation:
 						"Il s’agit d’une sculpture hyperréaliste prise dans un musée. L’image est souvent détournée pour inventer des scénarios sensationnalistes. La photo semble réaliste, mais plusieurs détails (texture trop lisse, posture figée, absence de contexte) permettent de douter.",
 				},
-			],
-		},
-		{
-			id: 2,
-			title: "Étape 2",
-			quiz: [
 				{
 					id: 15,
 					type: "image",
@@ -244,11 +238,12 @@ export const level3Quizzes: LevelQuizzes = {
 					explanation:
 						"C'est TROMPEUR. La corrélation (deux choses se passent en même temps) ne prouve pas la causalité. D'autres facteurs (météo, fermeture d'usines, autres politiques de santé) ont pu causer la baisse.",
 				},
+				
 			],
 		},
 		{
-			id: 3,
-			title: "Étape 3",
+			id: 2,
+			title: "Étape 2",
 			quiz: [
 				{
 					id: 16,
@@ -261,12 +256,6 @@ export const level3Quizzes: LevelQuizzes = {
 					explanation:
 						"C'est TROMPEUR. Un podcasteur (généraliste) surestime son expertise (Effet Dunning-Kruger) face à un consensus de milliers de scientifiques (Autorité réelle). La popularité n'est pas une compétence.",
 				},
-			],
-		},
-		{
-			id: 4,
-			title: "Étape 4",
-			quiz: [
 				{
 					id: 17,
 					type: "image",
@@ -278,11 +267,12 @@ export const level3Quizzes: LevelQuizzes = {
 					explanation:
 						"C'est TROMPEUR. Le fait peut être VRAI, mais il omet un contexte crucial ('Cherry-Picking') : le pays a peut-être délocalisé ses usines polluantes. Ses émissions nationales baissent, mais ses émissions importées augmentent.",
 				},
+				
 			],
 		},
 		{
-			id: 5,
-			title: "Étape 5",
+			id: 3,
+			title: "Étape 3",
 			quiz: [
 				{
 					id: 18,
@@ -295,12 +285,6 @@ export const level3Quizzes: LevelQuizzes = {
 					],
 					correctAnswer: 1
 				},
-			],
-		},
-		{
-			id: 6,
-			title: "Étape 6",
-			quiz: [
 				{
 					id: 19,
 					question: "Un journal titre : 'Le chômage baisse, mais 15% de la population reste en difficulté'. Un autre titre : 'L'économie s'améliore : le chômage continue sa baisse !'. Le premier titre utilise quel biais pour attirer l'attention ?",
@@ -312,12 +296,6 @@ export const level3Quizzes: LevelQuizzes = {
 					],
 					correctAnswer: 0
 				},
-			],
-		},
-		{
-			id: 7,
-			title: "Étape 7",
-			quiz: [
 				{
 					id: 20,
 					question: "Une personne vient de lire trois articles sur l'économie et se sent désormais 'plus compétente que la plupart des experts' pour diriger le pays. C'est une illustration parfaite de :",
