@@ -11,7 +11,7 @@ export default function PageTitle({ title, subtitle }: PageTitleProps) {
 			<h1 className={`${styles.headingH1} text-center mx-auto`}>{title}</h1>
 
 			<p
-				className={`${styles.paragraphLarge} text-center mx-auto mt-6 md:mt-10 px-2`}
+				className={`${styles.paragraphLarge} text-center mx-auto mt-4 md:mt-4 px-2`}
 			>
 				{subtitle}
 			</p>

@@ -20,12 +20,7 @@ export default async function Home() {
 			{/* Titre et sous-titre centrés */}
 			<PageTitle
 				title="FAKE NEWS DETECTOR"
-				subtitle="Notre monde est noyé sous les fake news et l'infobésité. Votre mission : apprendre à démêler le vrai du faux.
-Analysez les cartes d'information qui défilent. Swipez à gauche ( Faux) si l'info est trompeuse, swipez à droite ( Vrai) si elle est fiable.
-Chaque réponse vous rapporte de l'XP, aiguise votre esprit critique et vous rapproche du titre de Maître Fact-Checker. Prêt à commencer l'enquête ?
-
-
-"
+				subtitle="Bienvenue dans Le Détecteur, votre nouvelle salle de sport pour cerveau ! Nous avons transformé l'apprentissage de la vérification de l'info en un jeu rapide et addictif où vous devenez un véritable Agent Critique. Pourquoi est-ce si important ? Parce qu'aujourd'hui, nous sommes noyés sous l'infobésité, les fake news et les manipulations, et il est devenu vital de savoir trier le vrai du faux. L'objectif éducatif n'est donc pas seulement de gagner des points, c'est d'affûter votre esprit critique. En jouant, vous entraînerez votre cerveau à reconnaître les biais cognitifs (ces pièges mentaux qui nous piègent tous) et à développer le réflexe de la vérification avant de croire."
 			/>
 
 			{/* Bouton d'action */}

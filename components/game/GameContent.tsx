@@ -138,13 +138,14 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
   if (!gameStarted) {
     // État "préparation" (écran initial)
     return (
-      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-4xl flex flex-col items-center gap-8 px-[1rem] md:px-0">
-          <PageTitle title={title} subtitle={subtitle} />
+      <div className="relative min-h-screen flex flex-col items-center px-4 py-8">
+        <div className="w-full max-w-4xl flex flex-col items-center px-[1rem] md:px-0 pt-[60px] md:pt-0">
+          <PageTitle title={title} subtitle={''} />
+          <p className={`${styles.paragraphSmall} text-center mx-auto px-2 pb-4 md:pb-8`}>{subtitle}</p>
           {codex && codex.length > 0 && (
             <div className="w-full max-w-2xl">
               <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
-                <p className={`${styles.usernameLabel} mb-4`}>Biais introduits :</p>
+                <p className={`${styles.usernameLabel} mb-2`}>Biais introduits :</p>
                 <ul className="space-y-2">
                   {codex.map((item, index) => (
                     <li
