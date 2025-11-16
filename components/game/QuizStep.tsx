@@ -205,7 +205,7 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
           <div className="flex gap-4 justify-center">
             <button
               onClick={() => handleAnswerSelect(0)}
-              className={`${styles.buttonText} text-white flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${selectedAnswer === 0
+              className={`${styles.buttonText} text-[#2162DD] flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${selectedAnswer === 0
                   ? "bg-[#2162DD] border-[#2162DD] text-[#2162DD]"
                   : "bg-transparent border-[#2162DD] text-[#2162DD] hover:bg-[#2162DD] hover:text-white"
                 }`}
@@ -214,7 +214,7 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
             </button>
             <button
               onClick={() => handleAnswerSelect(1)}
-              className={`${styles.buttonText} text-white flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${selectedAnswer === 1
+              className={`${styles.buttonText} text-[#2162DD] flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${selectedAnswer === 1
                   ? "bg-[#2162DD] border-[#2162DD] text-white"
                   : "bg-transparent border-[#2162DD] text-[#2162DD] hover:bg-[#2162DD] hover:text-white"
                 }`}
