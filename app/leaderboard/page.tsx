@@ -49,17 +49,17 @@ export default function LeaderboardPage() {
         ) : leaderboard.length === 0 ? (
           <p className="text-white text-sm md:text-xl">Aucun score disponible</p>
         ) : (
-          <div className="flex flex-row items-end justify-center gap-1 md:gap-8 w-full max-w-4xl px-2">
+          <div className="flex flex-row items-end justify-center gap-4 md:gap-8 w-full max-w-4xl px-2">
             {/* 2ème place */}
             {leaderboard.length >= 2 && (
               <div className="flex flex-col items-center w-full md:w-auto">
-                <div className="bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md border-white border rounded-lg p-2 md:p-6 w-full max-w-[100px] md:max-w-[200px] mb-2 md:mb-4">
+                <div className="bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md border-white border rounded-lg p-2 md:p-6 w-full min-w-[120px] sm:min-w-[200px] md:min-w-[350px] mb-2 md:mb-4">
                   <div className="text-center">
                     <h3 className="text-white font-moore text-[50px] md:text-[80px] mb-1 md:mb-2 leading-[70px]">2</h3>
-                    <p className="text-white font-neue font-bold text-[18px] md:text-xl mb-1 md:mb-2 truncate">
+                    <p className="text-white font-neue uppercase font-bold text-[18px] md:text-[30px] mb-1 md:mb-2 truncate">
                       {leaderboard[1].username}
                     </p>
-                    <p className="text-white font-neue font-bold text-xs md:text-2xl">
+                    <p className="text-white font-neue font-normal italic text-xs md:text-2xl">
                       {leaderboard[1].score} pts
                     </p>
                   </div>
@@ -70,13 +70,13 @@ export default function LeaderboardPage() {
             {/* 1ère place */}
             {leaderboard.length >= 1 && (
               <div className="flex flex-col items-center w-full md:w-auto">
-                <div className="bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md border-white border rounded-lg p-2 md:p-8 w-full max-w-[120px] md:max-w-[250px] mb-2 md:mb-4 transform scale-105 md:scale-110">
+                <div className="bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md border-white border rounded-lg p-2 md:p-6 w-full min-w-[120px] sm:min-w-[200px] md:min-w-[350px] mb-2 md:mb-4 transform scale-105 md:scale-110">
                   <div className="text-center">
                     <h3 className="text-white font-moore text-[60px] md:text-[80px] mb-1 md:mb-2 leading-[70px]">1</h3>
-                    <p className="text-white font-neue font-bold text-[18px] md:text-xl mb-1 md:mb-2 truncate">
+                    <p className="text-white font-neue uppercase font-bold text-[18px] md:text-[30px] mb-1 md:mb-2 truncate">
                       {leaderboard[0].username}
                     </p>
-                    <p className="text-white font-neue font-bold text-sm md:text-3xl">
+                    <p className="text-white font-neue font-normal italic text-sm md:text-3xl">
                       {leaderboard[0].score} pts
                     </p>
                   </div>
@@ -87,13 +87,13 @@ export default function LeaderboardPage() {
             {/* 3ème place */}
             {leaderboard.length >= 3 && (
               <div className="flex flex-col items-center w-full md:w-auto">
-                <div className="bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md border-white border rounded-lg p-2 md:p-6 w-full max-w-[100px] md:max-w-[200px] mb-2 md:mb-4">
+                <div className="bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md border-white border rounded-lg p-2 md:p-6 w-full min-w-[120px] sm:min-w-[200px] md:min-w-[350px] mb-2 md:mb-4">
                   <div className="text-center">
                     <h3 className="text-white font-moore text-[40px] md:text-[80px] mb-1 md:mb-2 leading-[70px]">3</h3>
-                    <p className="text-white font-neue font-bold text-[18px] md:text-xl mb-1 md:mb-2 truncate">
+                    <p className="text-white font-neue uppercase font-bold text-[18px] md:text-[30px] mb-1 md:mb-2 truncate">
                       {leaderboard[2].username}
                     </p>
-                    <p className="text-white font-neue font-bold text-xs md:text-2xl">
+                    <p className="text-white font-neue font-normal italic text-xs md:text-2xl">
                       {leaderboard[2].score} pts
                     </p>
                   </div>
