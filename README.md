@@ -107,3 +107,56 @@ Please file feedback and issues over on the [Supabase GitHub org](https://github
 - [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
 - [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
 - [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+
+- ## Inspiration
+Facing growing infobesity and the rapid spread of misinformation (fake news), we identified a lack of interactive learning tools to develop critical thinking among citizens, particularly young adults. Media and Information Literacy (MIL) education is often too theoretical. We wanted to create a platform that makes fact-checking and the recognition of cognitive biases as fast and addictive as using social media, drawing inspiration from popular gaming mechanics.
+
+## What it does
+
+The Detector is a gamified web platform designed to transform the user into a Critical Agent. The application provides practical challenges based on real or misleading information.
+
+The game relies on two main formats:
+
+The Fake Detector: A fast information sorting game inspired by Tinder-swipe where the user judges headlines, images, or quotes as True or False and receives immediate feedback explaining the techniques of disinformation.
+
+The Newsfeed Simulation: A pressure test where the user must judge the reliability of a rapid information stream to learn how to handle urgency and the Availability Bias.
+
+Users earn XP to unlock Labels (e.g., from "Digital Novice" to "Master Fact-Checker"). The progression is designed in tiers: each new level focuses on specific scientific cognitive biases. The higher the level and the more the user progresses, the more complex biases the challenges integrate to identify and decode. Users can also consult a detailed Codex that expands as they discover these new biases.
+
+## How we built it
+
+We chose a modern and high-performance stack to ensure speed and scalability:
+
+Frontend: Next.js (React) for structure and server-side rendering (SSR/SSG), ensuring excellent performance and SEO for educational content.
+
+Design: Tailwind CSS for rapid development of the user interface, creating a modern theme with reusable components, which allowed us to stick to the design mockups.
+
+Database and Backend: Supabase (utilized primarily for implementing a leaderboard functionality. All other user data, such as game progress and profiles, is managed via localStorage for the MVP, with a structure ready for full user authentication and comprehensive profile management if the project scales).
+
+The architecture is based on reusable components (Atomic Design) to easily integrate the different game formats (Swipe, Simulation) with centralized scoring logic.
+
+## Challenges we ran into
+
+Designing Local Progression Logic: Given the initial choice not to use a database for the MVP, implementing robust user profile management (XP, level, pseudo) via localStorage required a disciplined approach within the Svelte Store to ensure data was saved correctly without being corrupted with each session.
+
+Content Variety: Designing advanced level questions, where verification requires nuance (distinguishing correlation from causation, identifying plausible satire), was a significant editorial challenge.
+
+## Accomplishments that we're proud of
+
+The Educational Feedback: Every answer (correct or incorrect) is immediately followed by a concise explanation and the Key Concept of verification. This ensures the game remains first and foremost a learning tool.
+
+Social Features: Add Leaderboards to compare scores with other users and enhance the gamified aspect.
+
+Accessibility and UX: Considering accessibility from the design stage makes the application usable by a wider audience.
+
+## What we learned
+
+We learned the crucial importance of defining the data contract early on, even when using localStorage. Clearly defining the schemas (userData, gameCards) allowed the UI and Gameplay developers to work in parallel effectively. From a technical standpoint, we mastered the integration of complex animations and local state management within the React/Next.js ecosystem.
+
+## What's next for Le Détecteur/ The Detector
+
+Full Migration to Supabase: Implement real authentication, allowing users to save their progress on any device.
+
+New Game Formats: Develop and integrate the other planned formats, such as "The Expert's Eye" (visual manipulation detection) and "The Tribunal of Ideas" (analysis of logical fallacies).
+
+Dynamic Content: Create an administrator interface for adding and managing new game cards dynamically via Supabase.
