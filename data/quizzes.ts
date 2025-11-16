@@ -229,57 +229,108 @@ export const level3Quizzes: LevelQuizzes = {
 				},
 			],
 		},
-		// {
-		// 	id: 2,
-		// 	title: "Étape 2",
-		// 	quiz: [
-		// 		{
-		// 			id: 4,
-		// 			type: "image",
-		// 			question:
-		// 				"Info : 'Les billets de 500€ sont le moyen le plus courant de financement des activités criminelles en Europe, ce qui a justifié leur retrait progressif.",
-		// 			options: ["Vrai", "Faux"],
-		// 			correctAnswer: 0,
-		// 			imageUrl: "/images/500_euro_crime.png",
-		// 			explanation:
-		// 				"C'est VRAI. C'était l'argument officiel de la Banque Centrale Européenne pour l'arrêt de leur émission en 2019, car leur forte valeur facilitait le blanchiment et le financement du terrorisme.",
-		// 		},
-		// 		{
-		// 			id: 5,
-		// 			type: "image",
-		// 			question:
-		// 				"ATTENTION : 'Les chemtrails laissés par les avions dans le ciel sont des produits chimiques délibérément pulvérisés pour contrôler la météo ou la population.",
-		// 			options: ["Vrai", "Faux"],
-		// 			correctAnswer: 1,
-		// 			imageUrl: "/images/chemtrails.jpg",
-		// 			explanation:
-		// 				"C'est FAUX : il s'agit d'une théorie du complot. Ces traînées sont des 'contrails' (nuages de condensation) composées de glace et d'eau. Le mot 'ATTENTION' active votre Biais de Négativité.",
-		// 		},
-		// 		{
-		// 			id: 6,
-		// 			type: "image",
-		// 			question:
-		// 				"FAIT : 'Seuls 10% de l'argent physique mondial est en circulation ; les 90% restants sont numériques ou virtuels.",
-		// 			options: ["Vrai", "Faux"],
-		// 			correctAnswer: 0,
-		// 			imageUrl: "/images/cash_vs_digital.png",
-		// 			explanation:
-		// 				"C'est VRAI. Ce chiffre est exact selon les estimations. Le chiffre bas de '10%' peut inciter au doute (Biais d'Ancrage), mais c'est bien la réalité de l'économie moderne.",
-		// 		},
-		// 		{
-		// 			id: 7,
-		// 			question:
-		// 				"Pourquoi les titres de presse 'choc' (catastrophes, scandales) attirent-ils plus notre attention que les nouvelles positives ?",
-		// 			options: [
-		// 				"À cause du Biais de Négativité",
-		// 				"À cause du Biais d'Ancrage",
-		// 				"À cause de la loi",
-		// 				"À cause du Biais d'Autorité",
-		// 			],
-		// 			correctAnswer: 0,
-		// 		},
-		// 	],
-		// },
+		{
+			id: 2,
+			title: "Étape 2",
+			quiz: [
+				{
+					id: 15,
+					type: "image",
+					question:
+						"Depuis que la ville de 'Metropolis' a interdit les voitures diesel, le nombre de cas d'asthme infantile a chuté de 50% en 2 ans.",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 1,
+					imageUrl: "/images/EcoRevolution.png",
+					explanation:
+						"C'est TROMPEUR. La corrélation (deux choses se passent en même temps) ne prouve pas la causalité. D'autres facteurs (météo, fermeture d'usines, autres politiques de santé) ont pu causer la baisse.",
+				},
+			],
+		},
+		{
+			id: 3,
+			title: "Étape 3",
+			quiz: [
+				{
+					id: 16,
+					type: "image",
+					question:
+						"Info : 'Un podcasteur célèbre (10M d'abonnés) démonte le 'mythe' du GIEC en 1h, 'les vrais chiffres sont cachés'.",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 1,
+					imageUrl: "/images/podcastClimate.png",
+					explanation:
+						"C'est TROMPEUR. Un podcasteur (généraliste) surestime son expertise (Effet Dunning-Kruger) face à un consensus de milliers de scientifiques (Autorité réelle). La popularité n'est pas une compétence.",
+				},
+			],
+		},
+		{
+			id: 4,
+			title: "Étape 4",
+			quiz: [
+				{
+					id: 17,
+					type: "image",
+					question:
+						"FAIT : 'Le pays X (grande puissance) a réduit ses émissions de CO2 de 10% l'an dernier, prouvant que sa politique écologique fonctionne.'",
+					options: ["Vrai", "Faux"],
+					correctAnswer: 1,
+					imageUrl: "/images/co2Reduction.png",
+					explanation:
+						"C'est TROMPEUR. Le fait peut être VRAI, mais il omet un contexte crucial ('Cherry-Picking') : le pays a peut-être délocalisé ses usines polluantes. Ses émissions nationales baissent, mais ses émissions importées augmentent.",
+				},
+			],
+		},
+		{
+			id: 5,
+			title: "Étape 5",
+			quiz: [
+				{
+					id: 18,
+					question: "Lors d'une négociation salariale, un recruteur propose d'abord un salaire très bas, bien en dessous du marché. Même si vous négociez à la hausse, le salaire final reste bas. Le recruteur a utilisé :",
+					options: [
+					"Le Biais d'Autorité (il est le recruteur)",
+					"Le Biais d'Ancrage (le chiffre bas a fixé le cadre)",
+					"Le Biais de Négativité (la peur de n'avoir rien)",
+					"Le Biais d'Aversion à la Perte"
+					],
+					correctAnswer: 1
+				},
+			],
+		},
+		{
+			id: 6,
+			title: "Étape 6",
+			quiz: [
+				{
+					id: 19,
+					question: "Un journal titre : 'Le chômage baisse, mais 15% de la population reste en difficulté'. Un autre titre : 'L'économie s'améliore : le chômage continue sa baisse !'. Le premier titre utilise quel biais pour attirer l'attention ?",
+					options: [
+					"Le Biais de Négativité",
+					"Le Biais d'Ancrage (le chiffre 15%)",
+					"Le Biais de Disponibilité",
+					"Le Biais de Confirmation"
+					],
+					correctAnswer: 0
+				},
+			],
+		},
+		{
+			id: 7,
+			title: "Étape 7",
+			quiz: [
+				{
+					id: 20,
+					question: "Une personne vient de lire trois articles sur l'économie et se sent désormais 'plus compétente que la plupart des experts' pour diriger le pays. C'est une illustration parfaite de :",
+					options: [
+					"L'Effet Dunning-Kruger",
+					"Le Biais de Confirmation",
+					"Le Biais de Disponibilité",
+					"Le Biais de Causalité Fallacieuse"
+					],
+					correctAnswer: 0
+				},
+			],
+		},
 	],
 };
 
