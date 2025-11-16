@@ -145,8 +145,8 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
   // Afficher l'explication si elle existe
   if (showExplanation && currentQuestion.explanation) {
     return (
-      <div className="w-full max-w-2xl mx-auto px-4 pb-24">
-        <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300 mb-6">
+      <div className="w-full max-w-2xl mx-auto px-4 flex flex-col items-center justify-center min-h-[calc(100vh-120px)] pb-24">
+        <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
           <div className="mb-4">
             <h4 className={`${styles.levelCardTitle} text-2xl mb-2`}>
               {isAnswerCorrect ? "Bonne reponse" : "Mauvaise reponse"}
