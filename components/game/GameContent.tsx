@@ -26,6 +26,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
   const [pointsEarned, setPointsEarned] = useState(0);
   const [scoreSaved, setScoreSaved] = useState(false);
   const [levelUpdated, setLevelUpdated] = useState(false);
+  const [levelPassed, setLevelPassed] = useState(false);
   
   const steps = getQuizzesForLevel(levelId);
 
@@ -50,8 +51,16 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
   useEffect(() => {
     if (currentStepIndex >= steps.length && !scoreSaved && totalCorrectAnswers > 0) {
       const saveScore = async () => {
+        // Calculer le nombre total de questions et le maximum de points possibles
+        const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
+        const maxPoints = totalQuestions * 10;
+        const passingThreshold = maxPoints * 0.7; // 70% du maximum
+        
         const totalPoints = totalCorrectAnswers * 10;
+        const hasPassed = totalPoints >= passingThreshold;
+        
         setPointsEarned(totalPoints);
+        setLevelPassed(hasPassed);
         setScoreSaved(true);
 
         try {
@@ -70,18 +79,20 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
             return;
           }
 
-          // Débloquer le niveau suivant
-          const nextLevel = levelId + 1;
-          const levelResponse = await fetch("/api/users/level", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ level: nextLevel }),
-          });
+          // Débloquer le niveau suivant seulement si le niveau est validé (70%)
+          if (hasPassed) {
+            const nextLevel = levelId + 1;
+            const levelResponse = await fetch("/api/users/level", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ level: nextLevel }),
+            });
 
-          if (levelResponse.ok) {
-            setLevelUpdated(true);
+            if (levelResponse.ok) {
+              setLevelUpdated(true);
+            }
           }
 
           // Rafraîchir les données utilisateur
@@ -94,7 +105,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
 
       saveScore();
     }
-  }, [currentStepIndex, steps.length, scoreSaved, totalCorrectAnswers, refreshUser, levelId]);
+  }, [currentStepIndex, steps, scoreSaved, totalCorrectAnswers, refreshUser, levelId]);
 
   if (!gameStarted) {
     // État "préparation" (écran initial)
@@ -129,7 +140,9 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
   if (currentStepIndex >= steps.length) {
     const totalPoints = totalCorrectAnswers * 10;
     const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
-    const nextLevel = levelId + 1;
+    const maxPoints = totalQuestions * 10;
+    const passingThreshold = maxPoints * 0.7;
+    const hasPassed = levelPassed || (totalPoints >= passingThreshold);
 
     const handleBackToLevels = () => {
       router.push("/levels");
@@ -138,13 +151,28 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
     return (
       <div className="relative min-h-screen flex items-center justify-center">
         <div className="text-center px-4">
-          <h2 className="text-white text-4xl md:text-6xl font-bold mb-4">Niveau terminé</h2>
+          <h2 className="text-white text-4xl md:text-6xl font-bold mb-4">
+            {hasPassed ? "Niveau validé !" : "Niveau terminé"}
+          </h2>
           <p className="text-white text-lg mb-2">
             Bonnes réponses: {totalCorrectAnswers} / {totalQuestions}
           </p>
-          <p className="text-white text-2xl font-bold mb-4">
-            Points gagnés: {pointsEarned || totalPoints} pts
+          <p className="text-white text-2xl font-bold mb-2">
+            Points gagnés: {pointsEarned || totalPoints} / {maxPoints} pts
           </p>
+          <p className="text-white text-lg mb-4">
+            Seuil de validation: {Math.ceil(passingThreshold)} pts (70%)
+          </p>
+          {!hasPassed && (
+            <p className="text-yellow-400 text-xl font-bold mb-4">
+              Niveau non validé. Il faut au moins {Math.ceil(passingThreshold)} pts pour débloquer le niveau suivant.
+            </p>
+          )}
+          {hasPassed && (
+            <p className="text-green-400 text-xl font-bold mb-4">
+              Félicitations ! Le niveau suivant est débloqué.
+            </p>
+          )}
           <CTAButton 
             text="Retour aux niveaux" 
             onClick={handleBackToLevels}
