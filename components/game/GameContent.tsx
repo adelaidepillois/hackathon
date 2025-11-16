@@ -8,6 +8,7 @@ import QuizStep from "./QuizStep";
 import { getQuizzesForLevel } from "@/data/quizzes";
 import { GameStep } from "@/data/quizzes";
 import { useUser } from "@/contexts/UserContext";
+import { styles } from "@/styles";
 
 interface GameContentProps {
   title: string;
@@ -99,17 +100,17 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
     // État "préparation" (écran initial)
     return (
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-4xl flex flex-col items-center gap-8">
+        <div className="w-full max-w-4xl flex flex-col items-center gap-8 px-[1rem] md:px-0">
           <PageTitle title={title} subtitle={subtitle} />
           {biases && biases.length > 0 && (
             <div className="w-full max-w-2xl">
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/30">
-                <p className="text-white font-bold text-lg mb-4">Biais introduits :</p>
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/30">
+                <p className={`${styles.usernameLabel} mb-4`}>Biais introduits :</p>
                 <ul className="space-y-2">
                   {biases.map((bias, index) => (
                     <li
                       key={index}
-                      className="text-white text-md list-disc list-outside ml-5"
+                      className={`${styles.levelCardDescription} text-white`}
                     >
                       {bias}
                     </li>
