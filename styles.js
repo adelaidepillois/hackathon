@@ -10,7 +10,7 @@ const styles = {
     levelCardAction: "font-neue font-bold text-[20px] md:text-[22px]",
     titleFinish: "text-white font-moore text-[70px] md:text-[190px] leading-[0.8]",
     titleSecondFinish: "text-white font-moore text-[70px] md:text-[150px] leading-[0.8]",
-
+    titleLevel: "text-white font-moore text-[70px] md:text-[80px] leading-[0.8]",
 };
 
 export { styles };

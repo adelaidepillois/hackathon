@@ -177,17 +177,17 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle 
       </h3> */}
 
       {levelTitle && (
-        <h4 className={`${styles.titleFinish} text-white mb-6 fixed top-8 left-1/2 -translate-x-1/2 z-40`}>
+        <h4 className={`${styles.titleLevel} text-white mb-6 fixed top-8 left-1/2 -translate-x-1/2 z-40`}>
           {levelTitle}
         </h4>
       )}
 
-      <div className="flex flex-col justify-center items-center">
+      <div className="absolute inset-0 flex flex-col justify-center items-center">
         <p className={`${styles.paragraphLarge} mb-4 text-white`}>
           {currentQuestion.question}
         </p>
         {isImageQuestion && currentQuestion.imageUrl && (
-          <div className="mb-4 w-[50%] flex justify-center px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
+          <div className="mb-4 w-[87%] md:max-w-[50%] flex justify-center px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
             <img
               src={currentQuestion.imageUrl}
               alt="Question image"
