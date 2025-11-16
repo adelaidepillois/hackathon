@@ -105,7 +105,7 @@ export default function LeaderboardPage() {
 
         <Link 
           href="/"
-          className={`${styles.buttonText}text-white fixed left-1/2 -translate-x-1/2 bottom-8 px-6 md:px-8 py-2 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50 text-sm md:text-base`}
+          className={`${styles.buttonText} text-white fixed left-1/2 -translate-x-1/2 bottom-8 px-6 md:px-8 py-2 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50 text-sm md:text-base`}
         >
           Retour à l'accueil
         </Link>
