@@ -19,7 +19,7 @@ interface GameContentProps {
 
 export default function GameContent({ title, subtitle, levelId, biases }: GameContentProps) {
   const router = useRouter();
-  const { refreshUser } = useUser();
+  const { refreshUser, user } = useUser();
   const [gameStarted, setGameStarted] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
@@ -27,10 +27,37 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
   const [scoreSaved, setScoreSaved] = useState(false);
   const [levelUpdated, setLevelUpdated] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
+  const [initialScore, setInitialScore] = useState(0);
   
   const steps = getQuizzesForLevel(levelId);
 
-  const handleStartGame = () => {
+  // Récupérer le score initial au chargement du composant et avant de commencer le niveau
+  useEffect(() => {
+    if (user?.score !== undefined) {
+      setInitialScore(user.score);
+    }
+  }, [user]);
+
+  const handleStartGame = async () => {
+    // Récupérer le score initial directement depuis l'API avant de commencer le niveau
+    try {
+      const cookieStore = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("username="))
+        ?.split("=")[1];
+      
+      if (cookieStore) {
+        const decodedUsername = decodeURIComponent(cookieStore.trim());
+        const response = await fetch(`/api/users/${encodeURIComponent(decodedUsername)}`);
+        if (response.ok) {
+          const userData = await response.json();
+          setInitialScore(userData.score || 0);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching initial score:", error);
+    }
+    
     setGameStarted(true);
   };
 
@@ -56,21 +83,22 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
         const maxPoints = totalQuestions * 10;
         const passingThreshold = maxPoints * 0.7; // 70% du maximum
         
-        const totalPoints = totalCorrectAnswers * 10;
-        const hasPassed = totalPoints >= passingThreshold;
+        const newPoints = totalCorrectAnswers * 10;
+        const totalScoreAfterLevel = initialScore + newPoints;
+        const hasPassed = totalScoreAfterLevel >= passingThreshold;
         
-        setPointsEarned(totalPoints);
+        setPointsEarned(newPoints);
         setLevelPassed(hasPassed);
         setScoreSaved(true);
 
         try {
-          // Sauvegarder le score
+          // Toujours sauvegarder les points obtenus pendant le niveau
           const scoreResponse = await fetch("/api/users/score", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ points: totalPoints }),
+            body: JSON.stringify({ points: newPoints }),
           });
 
           if (!scoreResponse.ok) {
@@ -105,7 +133,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
 
       saveScore();
     }
-  }, [currentStepIndex, steps, scoreSaved, totalCorrectAnswers, refreshUser, levelId]);
+  }, [currentStepIndex, steps, scoreSaved, totalCorrectAnswers, refreshUser, levelId, initialScore]);
 
   if (!gameStarted) {
     // État "préparation" (écran initial)
@@ -138,11 +166,13 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
 
   // Vérifier si toutes les étapes sont terminées
   if (currentStepIndex >= steps.length) {
-    const totalPoints = totalCorrectAnswers * 10;
+    const newPoints = totalCorrectAnswers * 10;
     const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
     const maxPoints = totalQuestions * 10;
     const passingThreshold = maxPoints * 0.7;
-    const hasPassed = levelPassed || (totalPoints >= passingThreshold);
+    const totalScoreAfterLevel = initialScore + (pointsEarned || newPoints);
+    const hasPassed = levelPassed || (totalScoreAfterLevel >= passingThreshold);
+    const pointsNeeded = Math.max(0, Math.ceil(passingThreshold) - initialScore);
 
     const handleBackToLevels = () => {
       router.push("/levels");
@@ -154,18 +184,26 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
           <h2 className="text-white text-4xl md:text-6xl font-bold mb-4">
             {hasPassed ? "Niveau validé !" : "Niveau terminé"}
           </h2>
+          {initialScore > 0 && (
+            <p className="text-white text-lg mb-2">
+              Points déjà acquis: {initialScore} pts
+            </p>
+          )}
           <p className="text-white text-lg mb-2">
             Bonnes réponses: {totalCorrectAnswers} / {totalQuestions}
           </p>
           <p className="text-white text-2xl font-bold mb-2">
-            Points gagnés: {pointsEarned || totalPoints} / {maxPoints} pts
+            Points gagnés cette tentative: {pointsEarned || newPoints} pts
+          </p>
+          <p className="text-white text-xl font-bold mb-2">
+            Score total: {totalScoreAfterLevel} / {Math.ceil(passingThreshold)} pts requis
           </p>
           <p className="text-white text-lg mb-4">
-            Seuil de validation: {Math.ceil(passingThreshold)} pts (70%)
+            Seuil de validation: {Math.ceil(passingThreshold)} pts (70% du maximum)
           </p>
           {!hasPassed && (
             <p className="text-yellow-400 text-xl font-bold mb-4">
-              Niveau non validé. Il faut au moins {Math.ceil(passingThreshold)} pts pour débloquer le niveau suivant.
+              Niveau non validé. Il vous reste {pointsNeeded} pts à obtenir pour débloquer le niveau suivant.
             </p>
           )}
           {hasPassed && (
