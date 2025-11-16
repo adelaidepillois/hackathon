@@ -256,6 +256,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
         questions={currentStep.quiz || []}
         onComplete={handleStepComplete}
         levelTitle={title}
+        biases={biases}
       />
     </div>
   );
