@@ -143,7 +143,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
           <PageTitle title={title} subtitle={subtitle} />
           {biases && biases.length > 0 && (
             <div className="w-full max-w-2xl">
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/30">
+              <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
                 <p className={`${styles.usernameLabel} mb-4`}>Biais introduits :</p>
                 <ul className="space-y-2">
                   {biases.map((bias, index) => (

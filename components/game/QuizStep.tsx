@@ -180,7 +180,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
           {currentQuestion.question}
         </h4>
         {isImageQuestion && currentQuestion.imageUrl && (
-          <div className="mb-4 w-[50%] flex justify-center bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/30">
+          <div className="mb-4 w-[50%] flex justify-center px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
             <img 
               src={currentQuestion.imageUrl} 
               alt="Question image" 
@@ -222,7 +222,7 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
               <button
                 key={index}
                 onClick={() => handleAnswerSelect(index)}
-                className={`w-full text-left px-4 py-1 rounded-lg border-2 transition-all ${
+                className={`w-full text-left px-4 py-1 rounded-full border-2 transition-all ${
                   selectedAnswer === index
                     ? "bg-[#2162DD] border-[#2162DD] text-white"
                     : "bg-white/5 border-white/30 text-white hover:bg-white/10"
