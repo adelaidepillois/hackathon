@@ -84,8 +84,8 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
         const passingThreshold = maxPoints * 0.7; // 70% du maximum
         
         const newPoints = totalCorrectAnswers * 10;
-        const totalScoreAfterLevel = initialScore + newPoints;
-        const hasPassed = totalScoreAfterLevel >= passingThreshold;
+        // La validation se base uniquement sur les points obtenus DANS CE NIVEAU
+        const hasPassed = newPoints >= passingThreshold;
         
         setPointsEarned(newPoints);
         setLevelPassed(hasPassed);
@@ -170,44 +170,55 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
     const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
     const maxPoints = totalQuestions * 10;
     const passingThreshold = maxPoints * 0.7;
-    const totalScoreAfterLevel = initialScore + (pointsEarned || newPoints);
-    const hasPassed = levelPassed || (totalScoreAfterLevel >= passingThreshold);
-    const pointsNeeded = Math.max(0, Math.ceil(passingThreshold) - initialScore);
+    // La validation se base uniquement sur les points obtenus DANS CE NIVEAU
+    const hasPassed = levelPassed || ((pointsEarned || newPoints) >= passingThreshold);
+    const pointsNeeded = Math.max(0, Math.ceil(passingThreshold) - (pointsEarned || newPoints));
 
     const handleBackToLevels = () => {
       router.push("/levels");
     };
 
     return (
-      <div className="relative min-h-screen flex items-center justify-center">
-        <div className="text-center px-4">
-          <h2 className="text-white text-4xl md:text-6xl font-bold mb-4">
-            {hasPassed ? "Niveau validé !" : "Niveau terminé"}
-          </h2>
-          {initialScore > 0 && (
-            <p className="text-white text-lg mb-2">
-              Points déjà acquis: {initialScore} pts
-            </p>
-          )}
-          <p className="text-white text-lg mb-2">
-            Bonnes réponses: {totalCorrectAnswers} / {totalQuestions}
-          </p>
-          {!hasPassed && (
-            <p className="text-yellow-400 text-xl font-bold mb-4">
-              Niveau non validé. Il vous reste {pointsNeeded} pts à obtenir pour débloquer le niveau suivant.
-            </p>
-          )}
-          {hasPassed && (
-            <p className="text-green-400 text-xl font-bold mb-4">
-              Niveau suivant est débloqué.
-            </p>
-          )}
-          <CTAButton 
-            text="Retour aux niveaux" 
-            onClick={handleBackToLevels}
+      <>
+        {/* Background spécifique pour l'écran de fin */}
+        <div className="fixed inset-[1rem] rounded-2xl overflow-hidden -z-10">
+          <img
+            src="/images/backFinish.svg"
+            alt="Background Finish"
+            className="w-full h-full object-cover"
           />
         </div>
-      </div>
+        <div className="relative min-h-screen flex items-center justify-center">
+          <div className="text-center px-4 mx-auto">
+            <h2 className={`${styles.titleSecondFinish} `}>
+              {`Niveau ${levelId}`}
+            </h2>
+            <h3 className={`${styles.titleFinish}`}>
+              termine
+            </h3>
+            {!hasPassed && (
+              <div className="mt-8 flex flex-col items-center justify-center">
+                <p className="text-white text-xl font-bold mb-2">
+                  Niveau non validé. Il vous reste {pointsNeeded} pts à obtenir pour débloquer le niveau suivant.
+                </p>
+                <p className={`${styles.levelCardDescription} text-white max-w-[50%]`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</p>
+              </div>
+            )}
+            {hasPassed && (
+              <div className="mt-8 flex flex-col items-center justify-center">
+                <p className="text-white text-xl font-bold mb-2">
+                  Niveau suivant débloqué.
+                </p>
+                <p className={`${styles.levelCardDescription} text-white max-w-[50%]`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</p>
+              </div>
+            )}
+            <CTAButton 
+              text="Retour aux niveaux" 
+              onClick={handleBackToLevels}
+            />
+          </div>
+        </div>
+      </>
     );
   }
 

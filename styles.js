@@ -8,6 +8,9 @@ const styles = {
     levelCardTitle: "font-moore text-[70px] md:text-[80px] leading-[70px]",
     levelCardDescription: "font-neue font-normal text-[18px] md:text-[18px]",
     levelCardAction: "font-neue font-bold text-[20px] md:text-[22px]",
+    titleFinish: "text-white font-moore text-[70px] md:text-[190px] leading-[0.8]",
+    titleSecondFinish: "text-white font-moore text-[70px] md:text-[150px] leading-[0.8]",
+
 };
 
 export { styles };
