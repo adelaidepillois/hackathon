@@ -249,7 +249,7 @@ export const level3Quizzes: LevelQuizzes = {
 					id: 16,
 					type: "image",
 					question:
-						"Info : 'Un podcasteur célèbre (10M d'abonnés) démonte le 'mythe' du GIEC en 1h, 'les vrais chiffres sont cachés'.",
+						"Un podcasteur célèbre (10M d'abonnés) démonte le 'mythe' du GIEC en 1h, est-ce que ça te semble réaliste ?",
 					options: ["Vrai", "Faux"],
 					correctAnswer: 1,
 					imageUrl: "/images/podcastClimate.png",
