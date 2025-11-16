@@ -1,5 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
+// Variable statique pour n'afficher le warning qu'une fois
+let hasWarnedAboutServiceRoleKey = false;
+
 /**
  * Crée un client Supabase avec les privilèges administrateur (service_role)
  * pour contourner RLS. À utiliser uniquement dans les API routes côté serveur.
@@ -24,15 +27,15 @@ export function createAdminClient() {
   // Utiliser service_role si disponible, sinon fallback sur publishable (soumis à RLS)
   const supabaseKey = serviceRoleKey || publishableKey;
 
-  if (!serviceRoleKey) {
+  // Afficher le warning une seule fois
+  if (!serviceRoleKey && !hasWarnedAboutServiceRoleKey) {
     console.warn(
       "⚠️ SUPABASE_SERVICE_ROLE_KEY n'est pas défini. L'API utilisera la clé publique qui est soumise à RLS."
     );
     console.warn(
       "⚠️ En production, cela peut causer des erreurs si RLS est activé sur la table User."
     );
-  } else {
-    console.log("✅ SUPABASE_SERVICE_ROLE_KEY est configuré");
+    hasWarnedAboutServiceRoleKey = true;
   }
 
   return createClient(supabaseUrl, supabaseKey, {
