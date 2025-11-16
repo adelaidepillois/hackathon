@@ -191,9 +191,18 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
         </div>
         <div className="relative min-h-screen flex items-center justify-center">
           <div className="text-center px-4 mx-auto">
-            <h2 className={`${styles.titleSecondFinish} `}>
-              {`Niveau ${levelId}`}
-            </h2>
+            <div className="relative inline-block">
+              <h2 className={`${styles.titleSecondFinish} `}>
+                {`Niveau ${levelId}`}
+              </h2>
+              {hasPassed && (
+                <img
+                  src="/images/success.png"
+                  alt="Success"
+                  className="absolute top-20.5 md:top-20.5 right-[-40px] md:right-[-90px] -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-20 md:h-20 object-contain z-10"
+                />
+              )}
+            </div>
             <h3 className={`${styles.titleFinish}`}>
               termine
             </h3>
@@ -258,6 +267,7 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
         onComplete={handleStepComplete}
         levelTitle={title}
         codex={codex}
+        stepIndex={currentStepIndex}
       />
     </div>
   );

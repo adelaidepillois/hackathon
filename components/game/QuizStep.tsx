@@ -10,9 +10,10 @@ interface QuizStepProps {
   onComplete: (correctAnswers: number) => void; // Nombre de bonnes réponses
   levelTitle?: string; // Nom du niveau
   codex?: string[]; // Données du codex pour le niveau
+  stepIndex?: number; // Index de l'étape (0-based)
 }
 
-export default function QuizStep({ stepTitle, questions, onComplete, levelTitle, codex }: QuizStepProps) {
+export default function QuizStep({ stepTitle, questions, onComplete, levelTitle, codex, stepIndex }: QuizStepProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -139,9 +140,20 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle,
       </h3> */}
 
       {levelTitle && (
-        <h4 className={`${styles.titleLevel} text-white mb-6 fixed top-8 left-1/2 -translate-x-1/2 z-40`}>
-          {levelTitle}
-        </h4>
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center">
+          <div className="relative inline-block">
+            <h4 className={`${styles.titleLevel} text-white mb-6`}>
+              {levelTitle}
+            </h4>
+            {stepIndex !== undefined && (
+              <img
+                src={`/images/step${stepIndex + 1}.png`}
+                alt={`Étape ${stepIndex + 1}`}
+                className="absolute md:top-[60px] top-[50px] right-[-40px] md:right-[-90px] -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-24 md:h-24 object-contain z-10"
+              />
+            )}
+          </div>
+        </div>
       )}
 
       <div className="absolute inset-0 flex flex-col justify-center items-center">
