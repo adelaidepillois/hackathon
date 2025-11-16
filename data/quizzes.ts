@@ -291,5 +291,8 @@ export function getQuizzesForLevel(levelId: number): GameStep[] {
 	if (levelId === 2) {
 		return level2Quizzes.steps;
 	}
+	if (levelId === 3) {
+		return level3Quizzes.steps;
+	}
 	return [];
 }
