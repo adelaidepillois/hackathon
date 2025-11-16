@@ -192,15 +192,6 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
           <p className="text-white text-lg mb-2">
             Bonnes réponses: {totalCorrectAnswers} / {totalQuestions}
           </p>
-          <p className="text-white text-2xl font-bold mb-2">
-            Points gagnés cette tentative: {pointsEarned || newPoints} pts
-          </p>
-          <p className="text-white text-xl font-bold mb-2">
-            Score total: {totalScoreAfterLevel} / {Math.ceil(passingThreshold)} pts requis
-          </p>
-          <p className="text-white text-lg mb-4">
-            Seuil de validation: {Math.ceil(passingThreshold)} pts (70% du maximum)
-          </p>
           {!hasPassed && (
             <p className="text-yellow-400 text-xl font-bold mb-4">
               Niveau non validé. Il vous reste {pointsNeeded} pts à obtenir pour débloquer le niveau suivant.
@@ -208,7 +199,7 @@ export default function GameContent({ title, subtitle, levelId, biases }: GameCo
           )}
           {hasPassed && (
             <p className="text-green-400 text-xl font-bold mb-4">
-              Félicitations ! Le niveau suivant est débloqué.
+              Niveau suivant est débloqué.
             </p>
           )}
           <CTAButton 

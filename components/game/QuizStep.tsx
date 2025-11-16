@@ -16,6 +16,8 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
 
   // Réinitialiser l'état quand les questions changent
   useEffect(() => {
@@ -24,6 +26,8 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
     setScore(0);
     setShowResult(false);
     setFinalScore(0);
+    setShowExplanation(false);
+    setIsAnswerCorrect(false);
   }, [stepTitle, questions]);
 
   // Vérifier si le tableau de questions est vide
@@ -72,6 +76,18 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
 
     // Vérifier si la réponse est correcte
     const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    setIsAnswerCorrect(isCorrect);
+    
+    // Afficher l'explication si elle existe, sinon passer directement à la suite
+    if (currentQuestion.explanation) {
+      setShowExplanation(true);
+    } else {
+      // Pas d'explication, passer directement à la suite
+      proceedToNext(isCorrect);
+    }
+  };
+
+  const proceedToNext = (isCorrect: boolean) => {
     const newScore = isCorrect ? score + 1 : score;
 
     if (isLastQuestion) {
@@ -83,7 +99,12 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
       setScore(newScore);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
+      setShowExplanation(false);
     }
+  };
+
+  const handleContinueAfterExplanation = () => {
+    proceedToNext(isAnswerCorrect);
   };
 
   const handleContinue = () => {
@@ -116,6 +137,30 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
               className="transition-all duration-500 group-hover:fill-[#2162DD]" 
             />
           </svg>
+        </button>
+      </div>
+    );
+  }
+
+  // Afficher l'explication si elle existe
+  if (showExplanation && currentQuestion.explanation) {
+    return (
+      <div className="w-full max-w-2xl mx-auto px-4 pb-24">
+        <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300 mb-6">
+          <div className="mb-4">
+            <h4 className={`${styles.levelCardTitle} text-2xl mb-2`}>
+              {isAnswerCorrect ? "Bonne reponse" : "Mauvaise reponse"}
+            </h4>
+            <p className={`${styles.levelCardDescription} text-white`}>
+              {currentQuestion.explanation}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={handleContinueAfterExplanation}
+          className={`${styles.buttonText} text-white fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50`}
+        >
+          {isLastQuestion ? "Terminer" : "Suivant"}
         </button>
       </div>
     );
