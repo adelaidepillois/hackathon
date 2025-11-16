@@ -183,7 +183,7 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle 
       )}
 
       <div className="absolute inset-0 flex flex-col justify-center items-center">
-        <p className={`${styles.paragraphLarge} mb-4 text-white`}>
+        <p className={`${styles.paragraphLarge} text-center mb-4 text-white max-w-[87%] md:max-w-[50%]`}>
           {currentQuestion.question}
         </p>
         {isImageQuestion && currentQuestion.imageUrl && (
