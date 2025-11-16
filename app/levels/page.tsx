@@ -111,7 +111,7 @@ export default function LevelsPage() {
 			</div>
 			
 			<div className="w-full mx-auto flex flex-col items-center lg:relative lg:h-screen pt-[90px] md:pt-[30px]">
-				<div className="flex flex-col items-center md:gap-10 gap-4 w-full px-4">
+				<div className="flex flex-col items-center md:gap-[80px] gap-4 w-full px-4">
 					<form
 						onSubmit={handleSubmit}
 						className="flex flex-col gap-2 items-center w-full max-w-sm mx-auto relative px-4"
@@ -144,7 +144,7 @@ export default function LevelsPage() {
 						
 					</form>
 
-					<div className="flex flex-col gap-4 w-full px-4 lg:px-0 lg:flex-row lg:items-start lg:justify-center">
+					<div className="flex flex-col gap-4 md:gap-8 w-full px-4 lg:px-0 lg:flex-row lg:items-start lg:justify-center">
 						{levels.map((level) => {
 							// Déterminer si le niveau est activé
 							const userLevel = user?.level || 1;
