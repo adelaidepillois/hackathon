@@ -28,7 +28,7 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
   const [levelUpdated, setLevelUpdated] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
   const [initialScore, setInitialScore] = useState(0);
-  
+
   const steps = getQuizzesForLevel(levelId);
 
   // Récupérer le score initial au chargement du composant et avant de commencer le niveau
@@ -45,7 +45,7 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
         .split("; ")
         .find((row) => row.startsWith("username="))
         ?.split("=")[1];
-      
+
       if (cookieStore) {
         const decodedUsername = decodeURIComponent(cookieStore.trim());
         const response = await fetch(`/api/users/${encodeURIComponent(decodedUsername)}`);
@@ -57,13 +57,13 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
     } catch (error) {
       console.error("Error fetching initial score:", error);
     }
-    
+
     setGameStarted(true);
   };
 
   const handleStepComplete = (correctAnswers: number) => {
     setTotalCorrectAnswers(prev => prev + correctAnswers);
-    
+
     // Passer à l'étape suivante immédiatement
     setCurrentStepIndex(prev => {
       if (prev < steps.length - 1) {
@@ -82,11 +82,11 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
         const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
         const maxPoints = totalQuestions * 10;
         const passingThreshold = maxPoints * 0.7; // 70% du maximum
-        
+
         const newPoints = totalCorrectAnswers * 10;
         // La validation se base uniquement sur les points obtenus DANS CE NIVEAU
         const hasPassed = newPoints >= passingThreshold;
-        
+
         setPointsEarned(newPoints);
         setLevelPassed(hasPassed);
         setScoreSaved(true);
@@ -202,7 +202,7 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
                 <p className="text-white text-xl font-bold mb-2">
                   Niveau non validé. Il vous reste {pointsNeeded} pts à obtenir pour débloquer le niveau suivant.
                 </p>
-                <p className={`${styles.levelCardDescription} text-white max-w-[50%]`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</p>
+                <p className={`${styles.levelCardDescription} text-white max-w-[50%]`}>Piégé ! Mais pas vaincu. Les fausses informations étaient subtiles cette fois ! Mais un bon détective apprend toujours de ses erreurs. Recommencez ce niveau pour aiguiser vos réflexes et débloquer la suite de l'enquête !</p>
               </div>
             )}
             {hasPassed && (
@@ -210,11 +210,11 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
                 <p className="text-white text-xl font-bold mb-2">
                   Niveau suivant débloqué.
                 </p>
-                <p className={`${styles.levelCardDescription} text-white max-w-[50%]`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.</p>
+                <p className={`${styles.levelCardDescription} text-white max-w-[90%] md:max-w-[50%]`}>Vos compétences s'affûtent. Vous avez déjoué les pièges de ce niveau avec brio. Mais l'infobésité ne dort jamais, et l'enquête continue. Êtes-vous prêt pour le défi suivant ?</p>
               </div>
             )}
-            <CTAButton 
-              text="Retour aux niveaux" 
+            <CTAButton
+              text="Retour aux niveaux"
               onClick={handleBackToLevels}
             />
           </div>
@@ -237,7 +237,7 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
 
   // État "jeu en cours" - afficher l'étape actuelle avec son quiz
   const currentStep = steps[currentStepIndex];
-  
+
   // Vérifier si currentStep existe
   if (!currentStep) {
     return (
@@ -249,7 +249,7 @@ export default function GameContent({ title, subtitle, levelId, codex }: GameCon
       </div>
     );
   }
-  
+
   return (
     <div className="relative min-h-screen flex items-center justify-center py-8">
       <QuizStep
