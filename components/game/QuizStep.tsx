@@ -9,9 +9,10 @@ interface QuizStepProps {
   questions: QuizQuestion[];
   onComplete: (correctAnswers: number) => void; // Nombre de bonnes réponses
   levelTitle?: string; // Nom du niveau
+  biases?: string[]; // Biais du niveau pour le codex
 }
 
-export default function QuizStep({ stepTitle, questions, onComplete, levelTitle }: QuizStepProps) {
+export default function QuizStep({ stepTitle, questions, onComplete, levelTitle, biases }: QuizStepProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -19,6 +20,7 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle 
   const [finalScore, setFinalScore] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+  const [showCodex, setShowCodex] = useState(false);
 
   // Réinitialiser l'état quand les questions changent
   useEffect(() => {
@@ -249,6 +251,49 @@ export default function QuizStep({ stepTitle, questions, onComplete, levelTitle 
       >
         {isLastQuestion ? "Terminer" : "Suivant"}
       </button>
+
+      {/* Bouton Codex en bas à gauche */}
+      {biases && biases.length > 0 && (
+        <>
+          <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-50">
+            <button
+              onClick={() => setShowCodex(!showCodex)}
+              className="p-3 rounded-full bg-transparent transition-all duration-500 flex items-center justify-center"
+            >
+              <img 
+                src="/images/codex.svg" 
+                alt="Codex" 
+                className="w-[60px] h-[60px]"
+              />
+            </button>
+
+            {/* Popup Codex juste au-dessus du bouton */}
+            {showCodex && (
+              <div className="absolute bottom-full left-0 w-[300px] md:w-[400px]">
+                <div className="bg-[#FF5CE8] rounded-lg p-6 relative">
+                  <button
+                    onClick={() => setShowCodex(false)}
+                    className="absolute top-[-10px] right-4 text-white text-[50px] font-light hover:opacity-70"
+                  >
+                    ×
+                  </button>
+                  <h3 className={`${styles.usernameLabel} mb-4 text-white`}>Biais introduits :</h3>
+                  <ul className="space-y-2">
+                    {biases.map((bias, index) => (
+                      <li
+                        key={index}
+                        className={`${styles.levelCardDescription} text-white`}
+                      >
+                        {bias}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
