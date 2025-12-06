@@ -8,22 +8,26 @@ interface QuizStepProps {
   stepTitle: string;
   questions: QuizQuestion[];
   onComplete: (correctAnswers: number) => void; // Nombre de bonnes réponses
+  levelTitle?: string; // Nom du niveau
+  codex?: string[]; // Données du codex pour le niveau
+  stepIndex?: number; // Index de l'étape (0-based)
 }
 
-export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepProps) {
+export default function QuizStep({ stepTitle, questions, onComplete, levelTitle, codex, stepIndex }: QuizStepProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
-  const [finalScore, setFinalScore] = useState(0);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+  const [showCodex, setShowCodex] = useState(false);
 
   // Réinitialiser l'état quand les questions changent
   useEffect(() => {
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
     setScore(0);
-    setShowResult(false);
-    setFinalScore(0);
+    setShowExplanation(false);
+    setIsAnswerCorrect(false);
   }, [stepTitle, questions]);
 
   // Vérifier si le tableau de questions est vide
@@ -72,84 +76,196 @@ export default function QuizStep({ stepTitle, questions, onComplete }: QuizStepP
 
     // Vérifier si la réponse est correcte
     const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    setIsAnswerCorrect(isCorrect);
+
+    // Afficher l'explication si elle existe, sinon passer directement à la suite
+    if (currentQuestion.explanation) {
+      setShowExplanation(true);
+    } else {
+      // Pas d'explication, passer directement à la suite
+      proceedToNext(isCorrect);
+    }
+  };
+
+  const proceedToNext = (isCorrect: boolean) => {
     const newScore = isCorrect ? score + 1 : score;
 
     if (isLastQuestion) {
-      // Dernière question, afficher le résultat
-      setFinalScore(newScore);
-      setShowResult(true);
+      // Dernière question, passer directement à l'étape suivante
+      onComplete(newScore);
     } else {
       // Passer à la question suivante
       setScore(newScore);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
+      setShowExplanation(false);
     }
   };
 
-  const handleContinue = () => {
-    onComplete(finalScore);
+  const handleContinueAfterExplanation = () => {
+    proceedToNext(isAnswerCorrect);
   };
 
-  if (showResult) {
+  // Afficher l'explication si elle existe
+  if (showExplanation && currentQuestion.explanation) {
     return (
-      <div className="w-full max-w-2xl mx-auto px-4 text-center">
-        <h3 className="text-white text-3xl md:text-4xl font-bold mb-4">Résultat de {stepTitle}</h3>
-        <p className="text-white text-2xl mb-6">
-          Score: {finalScore} / {questions.length}
-        </p>
-        <div className="flex justify-center">
-          <button
-            onClick={handleContinue}
-            className={`${styles.buttonText} px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500`}
-          >
-            Étape suivante →
-          </button>
+      <div className="w-full max-w-2xl mx-auto px-4 flex flex-col items-center justify-center min-h-[calc(100vh-120px)] pb-24">
+        <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
+          <div className="mb-4">
+            <h4 className={`${styles.levelCardTitle} text-2xl mb-2`}>
+              {isAnswerCorrect ? "Bonne reponse" : "Mauvaise reponse"}
+            </h4>
+            <p className={`${styles.levelCardDescription} text-white`}>
+              {currentQuestion.explanation}
+            </p>
+          </div>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full max-w-2xl mx-auto px-4">
-      <h3 className="text-white text-2xl md:text-3xl font-bold mb-6 text-center">
-        {stepTitle} - Question {currentQuestionIndex + 1} / {questions.length}
-      </h3>
-      
-      <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 md:p-8 mb-6">
-        <h4 className={`${styles.paragraphLarge} mb-6 text-white`}>
-          {currentQuestion.question}
-        </h4>
-        
-        <div className="space-y-3">
-          {currentQuestion.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleAnswerSelect(index)}
-              className={`w-full text-left px-4 py-1 rounded-lg border-2 transition-all ${
-                selectedAnswer === index
-                  ? "bg-[#2162DD] border-[#2162DD] text-white"
-                  : "bg-white/5 border-white/30 text-white hover:bg-white/10"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex justify-center">
         <button
-          onClick={handleNext}
-          disabled={selectedAnswer === null}
-          className={`${styles.buttonText} px-8 py-1 rounded-full bg-[#2162DD] border-[#2162DD] border ${
-            selectedAnswer === null
-              ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-transparent hover:text-[#2162DD] transition-all duration-500"
-          }`}
+          onClick={handleContinueAfterExplanation}
+          className={`${styles.buttonText} text-white fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border hover:bg-transparent hover:text-[#2162DD] transition-all duration-500 z-50`}
         >
           {isLastQuestion ? "Terminer" : "Suivant"}
         </button>
       </div>
+    );
+  }
+
+  const questionType = currentQuestion.type || "text";
+  const isImageQuestion = questionType === "image";
+
+  return (
+    <div className="w-full max-w-2xl mx-auto px-4 pb-24">
+      {/* <h3 className="text-white text-2xl md:text-3xl font-bold mb-6 text-center">
+        {stepTitle} - Question {currentQuestionIndex + 1} / {questions.length}
+      </h3> */}
+
+      {levelTitle && (
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center">
+          <div className="relative inline-block">
+            <h4 className={`${styles.titleLevel} text-white mb-6`}>
+              {levelTitle}
+            </h4>
+            {stepIndex !== undefined && (
+              <img
+                src={`/images/step${stepIndex + 1}.png`}
+                alt={`Étape ${stepIndex + 1}`}
+                className="absolute md:top-[60px] top-[50px] right-[-40px] md:right-[-90px] -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-24 md:h-24 object-contain z-10"
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      <div className="absolute inset-0 flex flex-col justify-center items-center">
+        <p className={`${styles.paragraphLarge} text-center mb-4 text-white max-w-[87%] md:max-w-[50%]`}>
+          {currentQuestion.question}
+        </p>
+        {isImageQuestion && currentQuestion.imageUrl && (
+          <div className="mb-4 md:max-w-[50%] max-h-[350px] md:max-h-[350px] flex justify-center px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
+            <img
+              src={currentQuestion.imageUrl}
+              alt="Question image"
+              className=" h-auto rounded-lg object-cover"
+            />
+          </div>
+        )}
+
+
+
+        {isImageQuestion ? (
+          // Boutons Vrai/Faux pour les questions avec image
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={() => handleAnswerSelect(0)}
+              className={`${styles.buttonText} text-[#2162DD] flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${selectedAnswer === 0
+                  ? "bg-[#2162DD] border-[#2162DD] text-white"
+                  : "bg-transparent border-[#2162DD] text-[#2162DD] hover:bg-[#2162DD] hover:text-white"
+                }`}
+            >
+              Vrai
+            </button>
+            <button
+              onClick={() => handleAnswerSelect(1)}
+              className={`${styles.buttonText} text-[#2162DD] flex-1 px-6 py-1 rounded-full border transition-all duration-500 ${selectedAnswer === 1
+                  ? "bg-[#2162DD] border-[#2162DD] text-white"
+                  : "bg-transparent border-[#2162DD] text-[#2162DD] hover:bg-[#2162DD] hover:text-white"
+                }`}
+            >
+              Faux
+            </button>
+          </div>
+        ) : (
+          // Options multiples pour les questions texte
+          <div className="space-y-3">
+            {currentQuestion.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswerSelect(index)}
+                className={`w-full text-left px-4 py-1 rounded-full border-2 transition-all ${selectedAnswer === index
+                    ? "bg-[#2162DD] border-[#2162DD] text-white"
+                    : "bg-white/5 border-white/30 text-white hover:bg-white/10"
+                  }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <button
+        onClick={handleNext}
+        disabled={selectedAnswer === null}
+        className={`${styles.buttonText} text-white fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-8 px-8 py-1 mb-[1rem] md:mb-0 rounded-full bg-[#2162DD] border-[#2162DD] border z-50 ${selectedAnswer === null
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-transparent hover:text-[#2162DD] transition-all duration-500"
+          }`}
+      >
+        {isLastQuestion ? "Terminer" : "Suivant"}
+      </button>
+
+      {/* Bouton Codex en bas à gauche */}
+      {codex && codex.length > 0 && (
+        <>
+          <div className="fixed bottom-4 left-4 md:bottom-4 md:left-4 z-50">
+            <button
+              onClick={() => setShowCodex(!showCodex)}
+              className="p-3 rounded-full bg-transparent transition-all duration-500 flex items-center justify-center"
+            >
+              <img 
+                src="/images/codex.svg" 
+                alt="Codex" 
+                className="w-[60px] h-[60px]"
+              />
+            </button>
+
+            {/* Popup Codex juste au-dessus du bouton */}
+            {showCodex && (
+              <div className="fixed bottom-20 left-4 right-4 md:absolute md:bottom-full  md:left-4 md:w-[400px] mb-4 md:mb-0 mx-4 md:mx-0">
+                <div className="bg-[#FF5CE8] rounded-lg p-6 relative">
+                  <button
+                    onClick={() => setShowCodex(false)}
+                    className="absolute top-[-10px] right-4 text-white text-[50px] font-light hover:opacity-70"
+                  >
+                    ×
+                  </button>
+                  <h3 className={`${styles.usernameLabel} mb-4 text-white`}>Biais introduits :</h3>
+                  <ul className="space-y-2">
+                    {codex.map((item, index) => (
+                      <li
+                        key={index}
+                        className={`${styles.levelCardDescription} text-white`}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

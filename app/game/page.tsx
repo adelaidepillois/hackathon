@@ -15,6 +15,7 @@ export default async function GamePage({
   // Valeurs par défaut si le niveau n'existe pas
   const title = level?.title || `Niveau ${levelId}`;
   const subtitle = level?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.";
+  const codex = level?.codex || [];
 
   return (
     <div className="relative min-h-screen">
@@ -25,7 +26,7 @@ export default async function GamePage({
           className="w-full h-full object-cover"
         />
       </div>
-      <GameContent title={title} subtitle={subtitle} levelId={levelId} />
+      <GameContent title={title} subtitle={subtitle} levelId={levelId} codex={codex} />
     </div>
   );
 }

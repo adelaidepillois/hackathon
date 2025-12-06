@@ -1,5 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(request: Request) {
   try {
@@ -12,22 +12,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Utiliser le service role key pour contourner RLS (uniquement côté serveur)
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const supabaseKey = serviceRoleKey || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
-    
-    // Avertir si on utilise la clé publique (soumise à RLS)
-    if (!serviceRoleKey) {
-      console.warn("⚠️ SUPABASE_SERVICE_ROLE_KEY n'est pas défini. L'API utilisera la clé publique qui est soumise à RLS.");
+    // Créer le client Supabase avec privilèges administrateur
+    let supabase;
+    try {
+      supabase = createAdminClient();
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error("❌ Erreur de configuration Supabase:", errorMessage);
+      return NextResponse.json(
+        { error: "Configuration error", details: errorMessage },
+        { status: 500 }
+      );
     }
-    
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    });
 
     // Utiliser "User" avec majuscule
     const tableName = "User";
@@ -66,21 +62,34 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Error saving user:", error);
+      console.error("Error details:", {
+        message: error.message,
+        code: error.code,
+        hint: error.hint,
+        details: error.details,
+        hasServiceRoleKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+        hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+        hasPublishableKey: !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+        nodeEnv: process.env.NODE_ENV,
+        vercelEnv: process.env.VERCEL_ENV
+      });
       
       // Message d'erreur pour RLS
       if (error.message?.includes("row-level security") || 
-          error.message?.includes("violates row-level security")) {
+          error.message?.includes("violates row-level security") ||
+          error.code === "42501") {
         const hasServiceRoleKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
         return NextResponse.json(
           { 
             error: "RLS Policy Error", 
             details: `Row Level Security bloque l'opération.`,
             hint: hasServiceRoleKey 
-              ? "Le service role key est configuré mais RLS bloque toujours. Essayez de désactiver RLS temporairement ou créez les politiques (voir supabase-rls-policy.sql)"
-              : "Solution 1 (recommandé): Ajoutez SUPABASE_SERVICE_ROLE_KEY dans .env.local:\n  1. Allez dans Supabase > Settings > API\n  2. Copiez la 'service_role' key (secret)\n  3. Ajoutez dans .env.local: SUPABASE_SERVICE_ROLE_KEY=votre_key\n  4. Redémarrez le serveur\n\nSolution 2: Désactivez RLS temporairement dans Supabase:\n  ALTER TABLE \"User\" DISABLE ROW LEVEL SECURITY;\n\nSolution 3: Créez les politiques RLS (voir supabase-rls-policy.sql)",
+              ? "Le service role key est configuré mais RLS bloque toujours. Vérifiez que SUPABASE_SERVICE_ROLE_KEY est bien configuré dans les variables d'environnement de production (Vercel/Netlify/etc)."
+              : "Solution: Ajoutez SUPABASE_SERVICE_ROLE_KEY dans les variables d'environnement de production:\n  1. Allez dans Supabase > Settings > API\n  2. Copiez la 'service_role' key (secret, commence par 'eyJ...')\n  3. Ajoutez dans votre plateforme de déploiement:\n     - Vercel: Settings > Environment Variables > Add\n     - Netlify: Site settings > Environment variables\n  4. Nom: SUPABASE_SERVICE_ROLE_KEY\n  5. Valeur: votre service_role key\n  6. Redéployez l'application",
             errorMessage: error.message,
             code: error.code,
-            usingServiceRoleKey: hasServiceRoleKey
+            usingServiceRoleKey: hasServiceRoleKey,
+            environment: process.env.NODE_ENV
           },
           { status: 500 }
         );
@@ -122,10 +131,14 @@ export async function POST(request: Request) {
     );
     
     // Stocker le username dans un cookie (valide 30 jours)
+    // En production, utiliser secure: true seulement si HTTPS
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isSecure = isProduction && (process.env.VERCEL_URL?.startsWith('https') || process.env.NEXT_PUBLIC_VERCEL_URL?.startsWith('https'));
+    
     response.cookies.set('username', username.trim(), {
       maxAge: 30 * 24 * 60 * 60, // 30 jours
       httpOnly: false, // Accessible depuis le client aussi
-      secure: process.env.NODE_ENV === 'production',
+      secure: isSecure, // Secure seulement si HTTPS en production
       sameSite: 'lax',
       path: '/', // Accessible sur tout le site
     });

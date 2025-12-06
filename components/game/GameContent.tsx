@@ -8,32 +8,62 @@ import QuizStep from "./QuizStep";
 import { getQuizzesForLevel } from "@/data/quizzes";
 import { GameStep } from "@/data/quizzes";
 import { useUser } from "@/contexts/UserContext";
+import { styles } from "@/styles";
 
 interface GameContentProps {
   title: string;
   subtitle: string;
   levelId: number;
+  codex?: string[];
 }
 
-export default function GameContent({ title, subtitle, levelId }: GameContentProps) {
+export default function GameContent({ title, subtitle, levelId, codex }: GameContentProps) {
   const router = useRouter();
-  const { refreshUser } = useUser();
+  const { refreshUser, user } = useUser();
   const [gameStarted, setGameStarted] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
   const [pointsEarned, setPointsEarned] = useState(0);
   const [scoreSaved, setScoreSaved] = useState(false);
   const [levelUpdated, setLevelUpdated] = useState(false);
-  
+  const [levelPassed, setLevelPassed] = useState(false);
+  const [initialScore, setInitialScore] = useState(0);
+
   const steps = getQuizzesForLevel(levelId);
 
-  const handleStartGame = () => {
+  // Récupérer le score initial au chargement du composant et avant de commencer le niveau
+  useEffect(() => {
+    if (user?.score !== undefined) {
+      setInitialScore(user.score);
+    }
+  }, [user]);
+
+  const handleStartGame = async () => {
+    // Récupérer le score initial directement depuis l'API avant de commencer le niveau
+    try {
+      const cookieStore = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("username="))
+        ?.split("=")[1];
+
+      if (cookieStore) {
+        const decodedUsername = decodeURIComponent(cookieStore.trim());
+        const response = await fetch(`/api/users/${encodeURIComponent(decodedUsername)}`);
+        if (response.ok) {
+          const userData = await response.json();
+          setInitialScore(userData.score || 0);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching initial score:", error);
+    }
+
     setGameStarted(true);
   };
 
   const handleStepComplete = (correctAnswers: number) => {
     setTotalCorrectAnswers(prev => prev + correctAnswers);
-    
+
     // Passer à l'étape suivante immédiatement
     setCurrentStepIndex(prev => {
       if (prev < steps.length - 1) {
@@ -48,18 +78,27 @@ export default function GameContent({ title, subtitle, levelId }: GameContentPro
   useEffect(() => {
     if (currentStepIndex >= steps.length && !scoreSaved && totalCorrectAnswers > 0) {
       const saveScore = async () => {
-        const totalPoints = totalCorrectAnswers * 10;
-        setPointsEarned(totalPoints);
+        // Calculer le nombre total de questions et le maximum de points possibles
+        const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
+        const maxPoints = totalQuestions * 10;
+        const passingThreshold = maxPoints * 0.7; // 70% du maximum
+
+        const newPoints = totalCorrectAnswers * 10;
+        // La validation se base uniquement sur les points obtenus DANS CE NIVEAU
+        const hasPassed = newPoints >= passingThreshold;
+
+        setPointsEarned(newPoints);
+        setLevelPassed(hasPassed);
         setScoreSaved(true);
 
         try {
-          // Sauvegarder le score
+          // Toujours sauvegarder les points obtenus pendant le niveau
           const scoreResponse = await fetch("/api/users/score", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ points: totalPoints }),
+            body: JSON.stringify({ points: newPoints }),
           });
 
           if (!scoreResponse.ok) {
@@ -68,18 +107,20 @@ export default function GameContent({ title, subtitle, levelId }: GameContentPro
             return;
           }
 
-          // Débloquer le niveau suivant
-          const nextLevel = levelId + 1;
-          const levelResponse = await fetch("/api/users/level", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ level: nextLevel }),
-          });
+          // Débloquer le niveau suivant seulement si le niveau est validé (70%)
+          if (hasPassed) {
+            const nextLevel = levelId + 1;
+            const levelResponse = await fetch("/api/users/level", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ level: nextLevel }),
+            });
 
-          if (levelResponse.ok) {
-            setLevelUpdated(true);
+            if (levelResponse.ok) {
+              setLevelUpdated(true);
+            }
           }
 
           // Rafraîchir les données utilisateur
@@ -92,44 +133,102 @@ export default function GameContent({ title, subtitle, levelId }: GameContentPro
 
       saveScore();
     }
-  }, [currentStepIndex, steps.length, scoreSaved, totalCorrectAnswers, refreshUser, levelId]);
+  }, [currentStepIndex, steps, scoreSaved, totalCorrectAnswers, refreshUser, levelId, initialScore]);
 
   if (!gameStarted) {
     // État "préparation" (écran initial)
     return (
-      <>
-        <PageTitle title={title} subtitle={subtitle} />
-        <CTAButton text="Lancer le niveau" onClick={handleStartGame} />
-      </>
+      <div className="relative min-h-screen flex flex-col items-center px-4 py-8">
+        <div className="w-full max-w-4xl flex flex-col items-center px-[1rem] md:px-0 pt-[60px] md:pt-0">
+          <PageTitle title={title} subtitle={''} />
+          <p className={`${styles.paragraphSmall} text-center mx-auto px-2 pb-4 md:pb-8`}>{subtitle}</p>
+          {codex && codex.length > 0 && (
+            <div className="w-full max-w-2xl">
+              <div className="flex flex-col w-full justify-between px-5 py-4 border-white border rounded-[10px] bg-[hsl(219,73%,50%,0.3)] backdrop-blur-md text-white transition-all duration-300">
+                <p className={`${styles.usernameLabel} mb-2`}>Biais introduits :</p>
+                <ul className="space-y-2">
+                  {codex.map((item, index) => (
+                    <li
+                      key={index}
+                      className={`${styles.levelCardDescription} text-white`}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+          <CTAButton text="Lancer le niveau" onClick={handleStartGame} />
+        </div>
+      </div>
     );
   }
 
   // Vérifier si toutes les étapes sont terminées
   if (currentStepIndex >= steps.length) {
-    const totalPoints = totalCorrectAnswers * 10;
+    const newPoints = totalCorrectAnswers * 10;
     const totalQuestions = steps.reduce((acc, step) => acc + step.quiz.length, 0);
-    const nextLevel = levelId + 1;
+    const maxPoints = totalQuestions * 10;
+    const passingThreshold = maxPoints * 0.7;
+    // La validation se base uniquement sur les points obtenus DANS CE NIVEAU
+    const hasPassed = levelPassed || ((pointsEarned || newPoints) >= passingThreshold);
+    const pointsNeeded = Math.max(0, Math.ceil(passingThreshold) - (pointsEarned || newPoints));
 
     const handleBackToLevels = () => {
       router.push("/levels");
     };
 
     return (
-      <div className="relative min-h-screen flex items-center justify-center">
-        <div className="text-center px-4">
-          <h2 className="text-white text-4xl md:text-6xl font-bold mb-4">Niveau terminé</h2>
-          <p className="text-white text-lg mb-2">
-            Bonnes réponses: {totalCorrectAnswers} / {totalQuestions}
-          </p>
-          <p className="text-white text-2xl font-bold mb-4">
-            Points gagnés: {pointsEarned || totalPoints} pts
-          </p>
-          <CTAButton 
-            text="Retour aux niveaux" 
-            onClick={handleBackToLevels}
+      <>
+        {/* Background spécifique pour l'écran de fin */}
+        <div className="fixed inset-[1rem] rounded-2xl overflow-hidden -z-10">
+          <img
+            src="/images/backFinish.svg"
+            alt="Background Finish"
+            className="w-full h-full object-cover"
           />
         </div>
-      </div>
+        <div className="relative min-h-screen flex items-center justify-center">
+          <div className="text-center px-4 mx-auto">
+            <div className="relative inline-block">
+              <h2 className={`${styles.titleSecondFinish} `}>
+                {`Niveau ${levelId}`}
+              </h2>
+              {hasPassed && (
+                <img
+                  src="/images/success.png"
+                  alt="Success"
+                  className="absolute top-20.5 md:top-20.5 right-[-40px] md:right-[-90px] -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-20 md:h-20 object-contain z-10"
+                />
+              )}
+            </div>
+            <h3 className={`${styles.titleFinish}`}>
+              termine
+            </h3>
+            {!hasPassed && (
+              <div className="mt-8 flex flex-col items-center justify-center">
+                <p className="text-white text-xl font-bold mb-2">
+                  Niveau non validé. Il vous reste {pointsNeeded} pts à obtenir pour débloquer le niveau suivant.
+                </p>
+                <p className={`${styles.levelCardDescription} text-white max-w-[50%]`}>Piégé ! Mais pas vaincu. Les fausses informations étaient subtiles cette fois ! Mais un bon détective apprend toujours de ses erreurs. Recommencez ce niveau pour aiguiser vos réflexes et débloquer la suite de l'enquête !</p>
+              </div>
+            )}
+            {hasPassed && (
+              <div className="mt-8 flex flex-col items-center justify-center">
+                <p className="text-white text-xl font-bold mb-2">
+                  Niveau suivant débloqué.
+                </p>
+                <p className={`${styles.levelCardDescription} text-white max-w-[90%] md:max-w-[50%]`}>Vos compétences s'affûtent. Vous avez déjoué les pièges de ce niveau avec brio. Mais l'infobésité ne dort jamais, et l'enquête continue. Êtes-vous prêt pour le défi suivant ?</p>
+              </div>
+            )}
+            <CTAButton
+              text="Retour aux niveaux"
+              onClick={handleBackToLevels}
+            />
+          </div>
+        </div>
+      </>
     );
   }
 
@@ -147,7 +246,7 @@ export default function GameContent({ title, subtitle, levelId }: GameContentPro
 
   // État "jeu en cours" - afficher l'étape actuelle avec son quiz
   const currentStep = steps[currentStepIndex];
-  
+
   // Vérifier si currentStep existe
   if (!currentStep) {
     return (
@@ -159,13 +258,16 @@ export default function GameContent({ title, subtitle, levelId }: GameContentPro
       </div>
     );
   }
-  
+
   return (
     <div className="relative min-h-screen flex items-center justify-center py-8">
       <QuizStep
         stepTitle={currentStep.title}
         questions={currentStep.quiz || []}
         onComplete={handleStepComplete}
+        levelTitle={title}
+        codex={codex}
+        stepIndex={currentStepIndex}
       />
     </div>
   );
